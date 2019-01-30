@@ -1,7 +1,7 @@
 #' Indice Diatomique de Guyane Française
 #'
 #' Calcule l'indice IDGF à partir d'une ou plusieurs listes floristiques
-#' @param df Le tableau contenant la liste floristique, composé de 4 colonnes (dans cet ordre) : id_releve, cd_taxon, abondance, her (1 ou 2)
+#' @param df Le tableau contenant la liste floristique, composé de 4 colonnes (dans cet ordre) : id_releve, cd_taxon, abondance, her (1 pour le bouclier guyanais ou 2 pour la plaine littorale)
 #' @param lang Argument acceptant deux valeurs : "FR" pour obtenir des résultats en français, "ENG" pour obtenir des résultats en anglais
 #'
 #' @return Une liste
@@ -10,12 +10,12 @@
 #' @examples
 #' taxa.GF
 #' IDGF(taxa, lang = "FR")
-#'
+#' @importFrom magrittr %>%
 #' @export
 #'
 IDGF <- function(df, lang = "FR") {
 
-  print("1/4 : Vérification des données")
+  cat("1/4 : Vérification des données\n")
   Sys.sleep(0.5)
 
 
@@ -35,7 +35,7 @@ IDGF <- function(df, lang = "FR") {
 
 
 # Standardisation (transcodage + abondance)
-  print("2/4 : Standardisation et transcodage")
+  cat("2/4 : Standardisation et transcodage\n")
   Sys.sleep(0.5)
 
 names(df) <- c("sample","cd_taxon","abondance","her")
@@ -64,7 +64,7 @@ df_standard <- df %>%
 
 # Calcul des métriques et de l'IDGF (divisé en 2?)
 
-  print("3/4 : Calcul des métriques brutes")
+  cat("3/4 : Calcul des métriques brutes\n")
   Sys.sleep(0.5)
 
 metrique_calc <-  df %>%
@@ -90,7 +90,7 @@ if (lang == "FR") {
 tab_indiciel <- metrique_calc %>%
   dplyr::select(sample,indiciel) %>%
   unique() %>%
-  dplyr::mutate(`fiabilité` = dplyr::case_when(indiciel < 300 ~ "Indice non calculable, augmenter la pression d'échantillonnage",
+  dplyr::mutate(`fiabilité` = dplyr::case_when(indiciel < 300 ~ "Indice non calculable, augmenter la pression de comptage",
                                  indiciel >= 300 & indiciel < 360 ~ "Indice à fiabilité réduite",
                                  indiciel >= 360 ~ "Indice fiable"))}
 
@@ -99,7 +99,7 @@ if (lang == "ENG") {
   tab_indiciel <- metrique_calc %>%
     dplyr::select(sample,indiciel) %>%
     unique() %>%
-    dplyr::mutate(reliability = dplyr::case_when(indiciel < 300 ~ "Non-calculable index, sampling effort must be increased",
+    dplyr::mutate(reliability = dplyr::case_when(indiciel < 300 ~ "Non-calculable index, counting effort must be increased",
                                                       indiciel >= 300 & indiciel < 360 ~ "Index with reduced reliability",
                                                       indiciel >= 360 ~ "Reliable index"))}
 
@@ -111,7 +111,7 @@ metriques <- metrique_calc %>%
   dplyr::select(sample,param,EQR) %>%
   tidyr::spread(key = param, value = EQR)
 
-print("4/4 : Calcul de l'IDGF et aggrégation")
+cat("4/4 : Calcul de l'IDGF et aggrégation\n")
 Sys.sleep(0.5)
 
 if(lang == "FR") {
@@ -124,8 +124,8 @@ note_finale <- metrique_calc %>%
   dplyr::summarise(IDGF = mean(EQR)) %>% # Note IDGF = moyenne des EQR
   dplyr::ungroup() %>%
   dplyr::mutate(IDGF = model_IDGF(IDGF)) %>%
-  dplyr::mutate(class = Ratio2Class(IDGF,boundaries = c(0.22,0.44,0.66,0.88),number = FALSE,language = "FR"),
-                numclass = Ratio2Class(IDGF,boundaries = c(0.22,0.44,0.66,0.88),number = TRUE,language = "FR")) %>%
+  dplyr::mutate(class = Ratio2Class(IDGF,boundaries = c(0.25,0.50,0.75,0.88),number = FALSE,language = "FR"),
+                numclass = Ratio2Class(IDGF,boundaries = c(0.25,0.50,0.75,0.88),number = TRUE,language = "FR")) %>%
   dplyr::mutate(class = factor(class,levels = c("Très bon" , "Bon" ,"Moyen" , "Médiocre" , "Mauvais"))) %>%
   dplyr::inner_join(metriques, by = "sample") %>%
   dplyr::inner_join(tab_indiciel, by = "sample")
@@ -142,8 +142,8 @@ if(lang == "ENG") {
     dplyr::summarise(IDGF = mean(EQR)) %>% # Note IDGF = moyenne des EQR
     dplyr::ungroup() %>%
     dplyr::mutate(IDGF = model_IDGF(IDGF)) %>%
-    dplyr::mutate(class = Ratio2Class(IDGF,boundaries = c(0.22,0.44,0.66,0.88),number = FALSE,language = "ENG"),
-                  numclass = Ratio2Class(IDGF,boundaries = c(0.22,0.44,0.66,0.88),number = TRUE,language = "ENG")) %>%
+    dplyr::mutate(class = Ratio2Class(IDGF,boundaries = c(0.25,0.50,0.75,0.88),number = FALSE,language = "ENG"),
+                  numclass = Ratio2Class(IDGF,boundaries = c(0.25,0.50,0.75,0.88),number = TRUE,language = "ENG")) %>%
     dplyr::mutate(class = factor(class,levels = c("High" , "Good" ,"Moderate" , "Bad" , "Poor"))) %>%
     dplyr::inner_join(metriques, by = "sample") %>%
     dplyr::inner_join(tab_indiciel, by = "sample")
@@ -160,7 +160,7 @@ if(lang=="ENG") {
     note_finale %>%
     dplyr::select(id_sample = sample, MES:SAT,IDGF,NumClass = numclass, Class = class, reliability)}
 
-
+cat("Résultats :")
 return(note_export)
 
 }
