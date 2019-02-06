@@ -1,6 +1,6 @@
 model_IDGF <- function(meanEQR) {
 
-  value = round((3.628823 * meanEQR) -2.628823,2)
+  value = round((3.626943 * meanEQR) -2.626943,2)
 
   ifelse(value < 0, yes = return(0), no = return(value))
 

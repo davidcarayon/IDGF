@@ -7,18 +7,18 @@
 IDGF(df, lang = "FR")
 }
 \arguments{
-\item{df}{Le tableau contenant la liste floristique, composé de 4 colonnes (dans cet ordre) : id_releve, cd_taxon, abondance, her (1 ou 2)}
+\item{df}{Le tableau contenant la liste floristique, composé de 4 colonnes (dans cet ordre) : id_releve, cd_taxon, abondance, her (1 pour la plaine littorale ou 2 pour le bouclier Guyanais)}
 
 \item{lang}{Argument acceptant deux valeurs : "FR" pour obtenir des résultats en français, "ENG" pour obtenir des résultats en anglais}
 }
 \value{
-Une liste
+Tableau des résultats
 }
 \description{
 Calcule l'indice IDGF à partir d'une ou plusieurs listes floristiques
 }
 \examples{
-taxa.GF
+head(taxa.GF)
+taxa <- taxa.GF
 IDGF(taxa, lang = "FR")
-
 }
