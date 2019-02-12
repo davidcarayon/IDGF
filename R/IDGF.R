@@ -152,7 +152,7 @@ note_finale <- metrique_calc %>%
 
   dplyr::left_join(taxons_missing, by = "sample") %>%
   dplyr::left_join(taxons_halins, by = "sample") %>%
-  dplyr::mutate_at(dplyr::vars(IDGF,numclass:SAT,Taxons_inconnus,Taxons_halins),
+  dplyr::mutate_at(dplyr::vars(IDGF,class:SAT,Taxons_inconnus,Taxons_halins),
                    dplyr::funs(ifelse(is.na(.), "", .)))
 
 
@@ -179,7 +179,7 @@ if(lang == "ENG") {
                   indiciel = indiciel / 400 * 100) %>%
     dplyr::left_join(taxons_missing, by = "sample") %>%
     dplyr::left_join(taxons_halins, by = "sample") %>%
-    dplyr::mutate_at(dplyr::vars(IDGF,numclass:SAT,Taxons_inconnus,Taxons_halins),
+    dplyr::mutate_at(dplyr::vars(IDGF,class:SAT,Taxons_inconnus,Taxons_halins),
                      dplyr::funs(ifelse(is.na(.), "", .)))
 }
 
