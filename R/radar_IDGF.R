@@ -1,8 +1,8 @@
-#' Sortie graphique de l'IDGF
+#' Sorties graphiques de l'IDGF
 #'
-#' Calcule l'indice IDGF à partir d'une ou plusieurs listes floristiques
-#' @param resultat_IDGF Les résultats issus de la fonction IDGF()
-#' @return Graphiques radar de chaque relevé présent dans le tableau initial
+#' Produit des diagrammes d'appui au diagnostic basés sur les résultats d'un IDGF
+#' @param result_IDGF Les résultats issus de la fonction `IDGF()`
+#' @return Graphiques d'appui au diagnostic pour chaque relevé présent dans le tableau initial
 #'
 #' @examples
 #' res.IDGF <- IDGF(taxa.GF, lang = "FR")
@@ -10,9 +10,9 @@
 #' @importFrom magrittr %>%
 #' @export
 #'
-Diagnostic_IDGF <- function(result_IDGF, lang = "FR"){
+Diagnostic_IDGF <- function(result_IDGF){
 
-  if(lang == "FR") {
+  if(names(result_IDGF[1]) == "id_releve") {
 
   id_releves <- result_IDGF %>% dplyr::mutate(nc = nchar(Classe)) %>%
     dplyr::filter(nc > 0) %>%
@@ -53,7 +53,7 @@ Diagnostic_IDGF <- function(result_IDGF, lang = "FR"){
 
 
 
-  if(lang == "ENG") {
+  if(names(result_IDGF[1]) == "id_sample") {
 
     id_releves <- result_IDGF %>% dplyr::mutate(nc = nchar(Class)) %>%
       dplyr::filter(nc > 0) %>%

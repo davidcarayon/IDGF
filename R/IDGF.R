@@ -1,16 +1,14 @@
 #' Indice Diatomique de Guyane Française
 #'
-#' Calcule l'indice IDGF à partir d'une ou plusieurs listes floristiques
-#' @param df Le tableau contenant la liste floristique, composé de 4 colonnes (dans cet ordre) : id_releve, cd_taxon, abondance, her (1 pour la plaine littorale ou 2 pour le bouclier Guyanais)
+#' Calcule l'indice IDGF à partir d'un ou plusieurs inventaires diatomiques
+#' @param df Le tableau contenant la liste floristique, composé de 4 colonnes (dans cet ordre) : id_releve, cd_taxon, abondance, her (1 pour la plaine littorale ou 2 pour le bouclier Guyanais).
 #' @param lang Argument acceptant deux valeurs : "FR" pour obtenir des résultats en français, "ENG" pour obtenir des résultats en anglais
 #'
-#' @return Tableau des résultats
-
+#' @return Un tableau détaillant les valeurs de chaque métrique individuelle (exprimée en EQR), une indication sur la robustesse sur l'indice ainsi que la proportion (et l'identité) des taxons inconnus et halins
 #'
 #' @examples
-#' head(taxa.GF)
-#' taxa <- taxa.GF
-#' IDGF(taxa, lang = "FR")
+#' head(taxa.GF)taxa.GF
+#' IDGF(taxa.GF, lang = "FR")
 #' @importFrom magrittr %>%
 #' @importFrom stats na.omit
 #' @export

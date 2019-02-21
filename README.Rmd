@@ -1,0 +1,84 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE, message=FALSE,warning=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
+library(dplyr)
+```
+# IDGF
+
+L'objectif de ce package est de fournir un outil de calcul complet de l'IDGF intégrant les tables de référence (transcodage, référence par HER) pour tout utilisateur initié à R.
+
+> Note : Ceci est un programme libre; vous pouvez le redistribuer ou le modifier suivant les
+termes de la GNU General Public License (GPL) telle que publiée par la Free Software Foundation; soit la version 3 de la licence, soit (a votre gré) toute version ultérieure. Ce travail est diffusé dans l’espoir qu’il sera utile, mais **sans aucune garantie de qualité marchande ou d’adéquation à un but particulier**.
+
+## Installation
+
+En attendant son déploiement sur le CRAN, ce package peut être installé manuellement ou par la commande suivant (nécessite une connexion internet) :
+
+``` r
+if (!require(devtools)){install.packages("devtools")}
+
+devtools::install_github("irstea/IDGF")
+
+```
+
+Puis, on charge le package :
+
+```{r}
+library(IDGF)
+```
+
+
+## Description
+
+Le package est actuellement composé de deux fonctions et d'un jeu de données fictif :
+
+- `IDGF()` permet le calcul de l'indice et renvoie un tableau contenant les valeurs des différentes métriques (exprimées en EQR), une indication sur la robustesse de l'indice ainsi que la proportion et identité des taxons inconnus ou halins. Les résultats peuvent être exprimés en deux langues contrôlé par l'argument "lang" qui n'accepte que deux valeurs : "FR" pour français (par défaut) et "ENG" pour anglais.
+
+Le format d'entrée attendu correspond au jeu de données fictif intégré au package `taxa.GF` et est le suivant :
+
+```{r}
+head(taxa.GF)
+```
+
+Les noms de chaque colonne peuvent être différents, mais l'ordre des 4 colonnes doit être scrupuleusement suivi.
+Aucun texte ne doit être introduit dans les colonnes d'abondance ou d'HER. L'HER 1 correspond à la plaine littorale du nord tandis que l'HER 2 correspond au bouclier guyanais.
+
+- `Diagnostic_IDGF()` trace les diagrammes d'appui au diagnostic et prend comme entrée les résultats de la fonction `IDGF()`
+
+## Exemple
+
+Dans un premier temps, l'IDGF peut simplement être calculé et stocké dans un objet `results` :
+
+```{r}
+results <- IDGF(df = taxa.GF, lang = "FR")
+```
+
+
+On affiche le tableau de sortie :
+
+```{r}
+results
+```
+
+
+Ensuite, nous ne conservons qu'une fraction des relevés pour l'exemple : 
+
+```{r}
+frac_results <- filter(results,id_releve %in% c("882","821")) 
+```
+
+Nous pouvons tracer les diagrammes d'appui au diagnostic pour ces deux relevés :
+
+```{r}
+Diagnostic_IDGF(result_IDGF = frac_results)
+```
+

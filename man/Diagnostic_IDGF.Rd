@@ -2,18 +2,18 @@
 % Please edit documentation in R/radar_IDGF.R
 \name{Diagnostic_IDGF}
 \alias{Diagnostic_IDGF}
-\title{Sortie graphique de l'IDGF}
+\title{Sorties graphiques de l'IDGF}
 \usage{
-Diagnostic_IDGF(result_IDGF, lang = "FR")
+Diagnostic_IDGF(result_IDGF)
 }
 \arguments{
-\item{resultat_IDGF}{Les résultats issus de la fonction IDGF()}
+\item{result_IDGF}{Les résultats issus de la fonction `IDGF()`}
 }
 \value{
-Graphiques radar de chaque relevé présent dans le tableau initial
+Graphiques d'appui au diagnostic pour chaque relevé présent dans le tableau initial
 }
 \description{
-Calcule l'indice IDGF à partir d'une ou plusieurs listes floristiques
+Produit des diagrammes d'appui au diagnostic basés sur les résultats d'un IDGF
 }
 \examples{
 res.IDGF <- IDGF(taxa.GF, lang = "FR")
