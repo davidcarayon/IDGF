@@ -16,6 +16,6 @@ Graphiques d'appui au diagnostic pour chaque relevé présent dans le tableau in
 Produit des diagrammes d'appui au diagnostic basés sur les résultats d'un IDGF
 }
 \examples{
-res.IDGF <- IDGF(taxa.GF, lang = "FR")
-Radar_IDGF(res.IDGF)
+res.IDGF <- IDGF(taxa.GF)
+Diagnostic_IDGF(res.IDGF)
 }

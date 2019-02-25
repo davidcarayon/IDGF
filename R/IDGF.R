@@ -2,18 +2,16 @@
 #'
 #' Calcule l'indice IDGF à partir d'un ou plusieurs inventaires diatomiques
 #' @param df Le tableau contenant la liste floristique, composé de 4 colonnes (dans cet ordre) : id_releve, cd_taxon, abondance, her (1 pour la plaine littorale ou 2 pour le bouclier Guyanais).
-#' @param lang Argument acceptant deux valeurs : "FR" pour obtenir des résultats en français, "ENG" pour obtenir des résultats en anglais
-#'
 #' @return Un tableau détaillant les valeurs de chaque métrique individuelle (exprimée en EQR), une indication sur la robustesse sur l'indice ainsi que la proportion (et l'identité) des taxons inconnus et halins
 #'
 #' @examples
-#' head(taxa.GF)taxa.GF
-#' IDGF(taxa.GF, lang = "FR")
+#' head(taxa.GF)
+#' IDGF(taxa.GF)
 #' @importFrom magrittr %>%
 #' @importFrom stats na.omit
 #' @export
 #'
-IDGF <- function(df, lang = "FR") {
+IDGF <- function(df) {
 
   cat("1/4 : Vérification des données\n")
 
@@ -22,10 +20,6 @@ IDGF <- function(df, lang = "FR") {
 
   if(sum(!class(df) %in% c("tbl_df","tbl","data.frame")) > 0) {
     stop('df doit être un dataframe ou un tibble')
-  }
-
-  if(!lang %in% c("FR","ENG")){
-    stop('lang n\'accepte que deux valeurs : "FR" ou "ENG"')
   }
 
   if(ncol(df) != 4) {
@@ -97,25 +91,12 @@ metrique_calc <-  df_standard %>%
 
 
 
-if (lang == "FR") {
 tab_indiciel <- metrique_calc %>%
   dplyr::select(sample,indiciel,halin) %>%
   unique() %>%
-  dplyr::mutate(`fiabilité` = dplyr::case_when(indiciel < 300  ~ "Indice non calculable, augmenter la pression de comptage",
-                                 indiciel >= 300 & indiciel < 360 ~ "Indice à fiabilité réduite",
-                                 indiciel >= 360 ~ "Indice fiable"))
-  }
-
-
-
-if (lang == "ENG") {
-  tab_indiciel <- metrique_calc %>%
-    dplyr::select(sample,indiciel,halin) %>%
-    unique() %>%
-    dplyr::mutate(reliability = dplyr::case_when(indiciel < 300 ~ "Non-calculable index, counting effort must be increased",
-                                                 indiciel >= 300 & indiciel < 360 ~ "Index with reduced reliability",
-                                                 indiciel >= 360 ~ "Reliable index"))
-  }
+  dplyr::mutate(`fiabilité` = dplyr::case_when(indiciel < 300  ~ "Fiabilité : Indice non calculable, augmenter la pression de comptage",
+                                 indiciel >= 300 & indiciel < 360 ~ "Fiabilité : réduite",
+                                 indiciel >= 360 ~ "Fiabilité : satisfaisante"))
 
 
 metriques <- metrique_calc %>%
@@ -126,9 +107,9 @@ metriques <- metrique_calc %>%
   tidyr::spread(key = param, value = EQR) %>%
   dplyr::mutate_at(dplyr::vars(MES:SAT),round,2)
 
-cat("4/4 : Calcul de l'IDGF et aggrégation\n")
 
-if(lang == "FR") {
+
+cat("4/4 : Calcul de l'IDGF et aggrégation\n")
 
 note_finale <- metrique_calc %>%
   dplyr::group_by(sample,her,param) %>%
@@ -141,7 +122,6 @@ note_finale <- metrique_calc %>%
   dplyr::mutate(IDGF = round(IDGF,2)) %>%
   dplyr::mutate(class = Ratio2Class(IDGF,boundaries = c(0.25,0.50,0.75,0.88),number = FALSE,language = "FR"),
                 numclass = Ratio2Class(IDGF,boundaries = c(0.25,0.50,0.75,0.88),number = TRUE,language = "FR")) %>%
-  dplyr::mutate(class = factor(class,levels = c("Très bon" , "Bon" ,"Moyen" , "Médiocre" , "Mauvais"))) %>%
   dplyr::inner_join(metriques, by = "sample") %>%
   dplyr::inner_join(tab_indiciel, by = "sample") %>%
   dplyr::mutate(indiciel = ifelse(indiciel > 400, yes = 400, no = indiciel)) %>%
@@ -154,42 +134,10 @@ note_finale <- metrique_calc %>%
                    dplyr::funs(ifelse(is.na(.), "", .)))
 
 
-}
-
-if(lang == "ENG") {
-
-  note_finale <- metrique_calc %>%
-    dplyr::group_by(sample,her,param) %>%
-    dplyr::mutate(EQR = purrr::pmap_dbl(.l = list(value,her,param), .f = Metric2EQR)) %>% # Renvoie metrique/ref
-    dplyr::ungroup() %>%
-    dplyr::group_by(sample) %>%
-    dplyr::summarise(IDGF = mean(EQR)) %>% # Note IDGF = moyenne des EQR
-    dplyr::ungroup() %>%
-    dplyr::mutate(IDGF = model_IDGF(IDGF)) %>%
-    dplyr::mutate(IDGF = round(IDGF,2)) %>%
-    dplyr::mutate(class = Ratio2Class(IDGF,boundaries = c(0.25,0.50,0.75,0.88),number = FALSE,language = "ENG"),
-                  numclass = Ratio2Class(IDGF,boundaries = c(0.25,0.50,0.75,0.88),number = TRUE,language = "ENG")) %>%
-    dplyr::mutate(class = factor(class,levels = c("High" , "Good" ,"Moderate" , "Bad" , "Poor"))) %>%
-    dplyr::inner_join(metriques, by = "sample") %>%
-    dplyr::inner_join(tab_indiciel, by = "sample") %>%
-    dplyr::mutate(indiciel = ifelse(indiciel > 400, yes = 400, no = indiciel)) %>%
-    dplyr::mutate(halin = halin / 400 * 100,
-                  indiciel = indiciel / 400 * 100) %>%
-    dplyr::left_join(taxons_missing, by = "sample") %>%
-    dplyr::left_join(taxons_halins, by = "sample") %>%
-    dplyr::mutate_at(dplyr::vars(IDGF,class:SAT,Taxons_inconnus,Taxons_halins),
-                     dplyr::funs(ifelse(is.na(.), "", .)))
-}
-
-if(lang=="FR") {
 note_export <-
   note_finale %>%
-  dplyr::select(id_releve = sample,pourcentage_indiciels = indiciel,pourcentage_halins = halin, MES:SAT,IDGF,NumClasse = numclass, Classe = class, `fiabilité`, Taxons_halins,Taxons_inconnus)}
-
-if(lang=="ENG") {
-  note_export <-
-    note_finale %>%
-    dplyr::select(id_sample = sample,pourcentage_indiciels = indiciel,pourcentage_halins = halin, MES:SAT,IDGF,NumClass = numclass, Class = class, reliability, Haline_taxa = Taxons_halins,Unknown_taxa = Taxons_inconnus)}
+  dplyr::select(id_releve = sample,pourcentage_indiciels = indiciel,pourcentage_halins = halin, MES:SAT,IDGF,NumClasse = numclass, Classe = class, `fiabilité`, Taxons_halins,Taxons_inconnus) %>%
+  dplyr::rename("MINE."="MINER","SAT.O2"="SAT","Mat.Orga"="MORGA","P-Trophie"="PTROPHIE","N-Orga"="NORG")
 
 cat(crayon::green("\u2713 Calcul de l'IDGF terminé\n"))
 
