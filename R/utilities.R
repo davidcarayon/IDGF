@@ -12,6 +12,7 @@ Metric2EQR <- function(metric,HER,par) {
     dplyr::select(ref) %>% dplyr::pull()
   value = metric/refvalue
   EQR = round(ifelse(value > 1, yes = 1, no = value),3)
+  EQR = ifelse(EQR < 0, yes = 0, no = EQR)
   return(EQR)
 
 }
