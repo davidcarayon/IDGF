@@ -15,7 +15,6 @@ IDGF <- function(df) {
 
   cat("1/4 : Vérification des données\n")
 
-
 # Test unitaires
 
   if(sum(!class(df) %in% c("tbl_df","tbl","data.frame")) > 0) {

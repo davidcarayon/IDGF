@@ -21,7 +21,7 @@ termes de la GNU General Public License (GPL) telle que publiée par la Free Sof
 
 ## Installation
 
-En attendant son déploiement sur le CRAN, ce package peut être installé manuellement ou par la commande suivant (nécessite une connexion internet) :
+En attendant son déploiement sur le CRAN, ce package peut être installé manuellement ou par la commande suivante (nécessite une connexion internet) :
 
 ``` r
 if (!require(devtools)){install.packages("devtools")}

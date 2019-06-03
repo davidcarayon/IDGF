@@ -17,7 +17,7 @@ HER) pour tout utilisateur initié à R.
 ## Installation
 
 En attendant son déploiement sur le CRAN, ce package peut être installé
-manuellement ou par la commande suivant (nécessite une connexion
+manuellement ou par la commande suivante (nécessite une connexion
 internet) :
 
 ``` r
