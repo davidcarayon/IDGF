@@ -1,7 +1,10 @@
 Package: IDGF
 Title: Indice Diatomique de Guyane Française
 Version: 1.0.000
-Authors@R: person("David", "Carayon", email = "david.carayon@irstea.fr", role = c("aut", "cre"))
+Authors@R: c(
+    person("David", "Carayon", email = "david.carayon@irstea.fr", role = c("aut", "cre")),
+    person("François","Delmas",email = "francois.delmas@irstea.fr", role = "aut")
+    )
 Description: Package contenant les fonctions essentielles pour l'évaluation de l'état écologique des cours d'eau de Guyane basée sur les diatomées.
 Depends: R (>= 3.4.0)
 License: GPL-3
