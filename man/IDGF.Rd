@@ -4,10 +4,12 @@
 \alias{IDGF}
 \title{Indice Diatomique de Guyane Française}
 \usage{
-IDGF(df)
+IDGF(df, export = TRUE)
 }
 \arguments{
 \item{df}{Le tableau contenant la liste floristique, composé de 4 colonnes (dans cet ordre) : id_releve, cd_taxon, abondance, her (1 pour la plaine littorale ou 2 pour le bouclier Guyanais).}
+
+\item{export}{Boléen pouvant prendre seulement deux valeurs (TRUE ou FALSE) spécifiant si l'algorithme doit exporter les résultats dans un fichier .csv dans le répertoire courant.}
 }
 \value{
 Un tableau détaillant les valeurs de chaque métrique individuelle (exprimée en EQR), une indication sur la robustesse sur l'indice ainsi que la proportion (et l'identité) des taxons inconnus et halins
@@ -17,5 +19,5 @@ Calcule l'indice IDGF à partir d'un ou plusieurs inventaires diatomiques
 }
 \examples{
 head(taxa.GF)
-IDGF(taxa.GF)
+IDGF(taxa.GF, export = FALSE)
 }

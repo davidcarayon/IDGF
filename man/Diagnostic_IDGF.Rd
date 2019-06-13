@@ -4,10 +4,12 @@
 \alias{Diagnostic_IDGF}
 \title{Sorties graphiques de l'IDGF}
 \usage{
-Diagnostic_IDGF(result_IDGF)
+Diagnostic_IDGF(result_IDGF, export = TRUE)
 }
 \arguments{
 \item{result_IDGF}{Les résultats issus de la fonction `IDGF()`}
+
+\item{export}{Boléen pouvant prendre seulement deux valeurs (TRUE ou FALSE) spécifiant si l'algorithme doit exporter les résultats dans un fichier .csv dans le répertoire courant.}
 }
 \value{
 Graphiques d'appui au diagnostic pour chaque relevé présent dans le tableau initial
@@ -17,5 +19,5 @@ Produit des diagrammes d'appui au diagnostic basés sur les résultats d'un IDGF
 }
 \examples{
 res.IDGF <- IDGF(taxa.GF)
-Diagnostic_IDGF(res.IDGF)
+Diagnostic_IDGF(res.IDGF, export = TRUE)
 }

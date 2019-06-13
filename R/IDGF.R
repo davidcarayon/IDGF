@@ -2,16 +2,17 @@
 #'
 #' Calcule l'indice IDGF à partir d'un ou plusieurs inventaires diatomiques
 #' @param df Le tableau contenant la liste floristique, composé de 4 colonnes (dans cet ordre) : id_releve, cd_taxon, abondance, her (1 pour la plaine littorale ou 2 pour le bouclier Guyanais).
+#' @param export Boléen pouvant prendre seulement deux valeurs (TRUE ou FALSE) spécifiant si l'algorithme doit exporter les résultats dans un fichier .csv dans le répertoire courant.
 #' @return Un tableau détaillant les valeurs de chaque métrique individuelle (exprimée en EQR), une indication sur la robustesse sur l'indice ainsi que la proportion (et l'identité) des taxons inconnus et halins
 #'
 #' @examples
 #' head(taxa.GF)
-#' IDGF(taxa.GF)
+#' IDGF(taxa.GF, export = FALSE)
 #' @importFrom magrittr %>%
 #' @importFrom stats na.omit
 #' @export
 #'
-IDGF <- function(df) {
+IDGF <- function(df, export = TRUE) {
 
   cat("1/4 : Vérification des données\n")
 
@@ -139,6 +140,16 @@ note_export <-
   dplyr::rename("MINE."="MINER","SAT.O2"="SAT","Mat.Orga"="MORGA","P-Trophie"="PTROPHIE","N-Orga"="NORG")
 
 cat(crayon::green("\u2713 Calcul de l'IDGF terminé\n"))
+
+
+if(export) {
+  s.time <- paste0(strsplit(as.character(Sys.time())," ")[[1]],collapse = "_")
+  time <- paste0(strsplit(s.time,":")[[1]],collapse = ".")
+  if(!dir.exists("output")) {dir.create("output")}
+  write.csv2(note_export,paste0("output/resultats_idgf_",time,".csv"))
+  cat(crayon::green(crayon::bold(paste0("\u2713 Le fichier .csv a été exporté dans : \n",paste0("output/resultats_idgf_",time,".csv"),"\n Il est encodé en UTF-8 et a comme séparateur le point-virgule (;) et comme décimale la virgule (,)"))))
+
+}
 
 return(note_export)
 

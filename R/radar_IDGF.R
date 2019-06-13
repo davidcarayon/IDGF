@@ -2,15 +2,16 @@
 #'
 #' Produit des diagrammes d'appui au diagnostic basés sur les résultats d'un IDGF
 #' @param result_IDGF Les résultats issus de la fonction `IDGF()`
+#' @param export Boléen pouvant prendre seulement deux valeurs (TRUE ou FALSE) spécifiant si l'algorithme doit exporter les résultats dans un fichier .csv dans le répertoire courant.
 #' @return Graphiques d'appui au diagnostic pour chaque relevé présent dans le tableau initial
 #'
 #' @examples
 #' res.IDGF <- IDGF(taxa.GF)
-#' Diagnostic_IDGF(res.IDGF)
+#' Diagnostic_IDGF(res.IDGF, export = TRUE)
 #' @importFrom magrittr %>%
 #' @export
 #'
-Diagnostic_IDGF <- function(result_IDGF){
+Diagnostic_IDGF <- function(result_IDGF, export = TRUE){
 
   id_releves <- result_IDGF %>% dplyr::mutate(nc = nchar(Classe)) %>%
     dplyr::filter(nc > 0) %>%
@@ -24,6 +25,14 @@ Diagnostic_IDGF <- function(result_IDGF){
     tidyr::gather(key = param, value = EQR, -id_releve) %>%
     dplyr::mutate(radar_metric = 1 - EQR) %>%
     dplyr::mutate(param = factor(param, levels = c("SAT.O2","Mat.Orga","N-Orga","P-Trophie","NO3","MINE.","MES")))
+
+
+  if(export) {
+    s.time <- paste0(strsplit(as.character(Sys.time())," ")[[1]],collapse = "_")
+    time <- paste0(strsplit(s.time,":")[[1]],collapse = ".")
+    if(!dir.exists("output")) {dir.create("output")}
+    pdf(paste0("output/radar_idgf_",time,".pdf"))
+  }
 
   for( i in id_releves) {
 
@@ -46,10 +55,15 @@ Diagnostic_IDGF <- function(result_IDGF){
 
     print(plot)
 
-    cat(crayon::green(paste0("\u2713 Graphique exporté pour la station...",i,"\n")))
+    cat(crayon::green(paste0("\u2713 Graphique produit pour la station...",i,"\n")))
 
   }
 
-
+if(export) {
+  dev.off()
+  cat(crayon::green(crayon::bold(paste0("\u2713 Les graphiques ont été exportés dans \n",paste0("output/radar_idgf_",time,".pdf"),"\n Chaque page du PDF correspond à un prélèvement"))))
+}
 
 }
+
+
