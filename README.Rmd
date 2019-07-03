@@ -69,7 +69,6 @@ On affiche le tableau de sortie :
 results
 ```
 
-
 Ensuite, nous ne conservons qu'une fraction des relevés pour l'exemple : 
 
 ```{r}

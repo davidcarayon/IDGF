@@ -79,6 +79,9 @@ results <- IDGF(df = taxa.GF)
 #> 3/4 : Calcul des métriques brutes
 #> 4/4 : Calcul de l'IDGF et aggrégation
 #> ✓ Calcul de l'IDGF terminé
+#> ✓ Le fichier .csv a été exporté dans : 
+#> output/resultats_idgf_2019-07-03_13.30.30.csv
+#>  Il est encodé en UTF-8 et a comme séparateur le point-virgule (;) et comme décimale la virgule (,)
 ```
 
 On affiche le tableau de sortie :
@@ -116,8 +119,9 @@ relevés :
 
 ``` r
 Diagnostic_IDGF(result_IDGF = frac_results)
-#> ✓ Graphique exporté pour la station...882
-#> ✓ Graphique exporté pour la station...981
+#> ✓ Graphique produit pour la station...882
+#> ✓ Graphique produit pour la station...981
+#> ✓ Les graphiques ont été exportés dans 
+#> output/radar_idgf_2019-07-03_13.30.30.pdf
+#>  Chaque page du PDF correspond à un prélèvement
 ```
-
-![](man/figures/README-unnamed-chunk-6-1.png)![](man/figures/README-unnamed-chunk-6-2.png)
