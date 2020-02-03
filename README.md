@@ -101,7 +101,7 @@ Pour installer le package IDGF ainsi que ses dépendences associées, vous
 pouvez exécuter dans la console :
 
 ``` r
-remotes::install_local("IDGF.tar.gz")
+remotes::install_local("IDGF_2.0.tar.gz")
 ```
 
 Ceci devrait installer le package ainsi que ses dépendances. Cette
@@ -229,7 +229,31 @@ dans Session \> Définir le répertoire courant).
 
 # Utilisation de l’applicatif
 
-## Via une interface interactive (*New\!*)
+## Via une interface interactive
+
+Afin de simplifier l’utilisation de cet applicatif, une version
+interactive a également été développée. Pour l’utiliser, il suffit
+d’exécuter cette commande :
+
+``` r
+library(IDGF) # On vérifie que le package est bien chargé
+runIDGFTool() # Va lancer un applicatif
+```
+
+Un pop-up va alors s’ouvrir comme une seconde page de Rstudio. Il est
+conseillé d’élargir cette fenêtre en plein écran.
+
+![](man/figures/README-app.png)
+
+A partir de cette interface, il suffit de charger les données à l’aide
+du bouton de chargement, puis il sera possible de visionner à partir des
+modules de la barre latérale :
+
+  - Les résultats bruts (sous forme de tableau)
+  - Les diagrammes de diagnostic
+
+Enfin, il est possible de télécharger ces résultats sous forme d’archive
+.zip.
 
 ## Via lignes de code
 

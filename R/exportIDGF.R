@@ -14,7 +14,7 @@ exportIDGF <- function(IDGFres, outdir = paste0("RES_",Sys.Date())){
   if(!dir.exists(outdir)) {dir.create(outdir, recursive = TRUE)}
 
   s.time <- paste0(strsplit(as.character(Sys.time())," ")[[1]],collapse = "_")
-  time <- paste0(strsplit(s.time,":")[[1]],collapse = "-")
+  time <- Sys.Date()
 
   write.csv2(IDGFres %>% dplyr::select(1:16),paste0(outdir,"/resultats_idgf_",time,".csv"), row.names = FALSE)
 
