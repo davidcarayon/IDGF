@@ -1,127 +1,314 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# IDGF
+# Applicatif de calcul R pour l’IDGF
 
-L’objectif de ce package est de fournir un outil de calcul complet de
-l’IDGF intégrant les tables de référence (transcodage, référence par
-HER) pour tout utilisateur initié à R.
+# Préambule
 
-> Note : Ceci est un programme libre; vous pouvez le redistribuer ou le
-> modifier suivant les termes de la GNU General Public License (GPL)
-> telle que publiée par la Free Software Foundation; soit la version 3
-> de la licence, soit (a votre gré) toute version ultérieure. Ce travail
-> est diffusé dans l’espoir qu’il sera utile, mais **sans aucune
-> garantie de qualité marchande ou d’adéquation à un but particulier**.
+La Directive Cadre sur l’Eau (DCE) impose aux états membres de l’Union
+Européenne un suivi de la qualité écologique de leurs masses d’eau via
+l’étude de compartiments biologiques clés du milieu aquatique. La
+Guyane Française est un Département d’Outre-Mer (DOM) situé dans la
+partie Amazonienne de l’Amérique du sud. Ce département, malgré son
+éloignement, est un territoire européen comme tous les autres DOM et
+est donc soumis aux prescriptions de la DCE. Les travaux de la dernière
+décennie, notamment sur le compartiment diatomique, ont mené à
+l’élaboration de plusieurs nouveaux indices biologiques
+spécifiquement adaptés aux conditions biogéographiques (substrats
+géologiques, climat, faune et flore locale) de chacun de ces
+territoires ultramarins.
 
-## Installation
+Cependant, la conception d’un indice diatomique spécifique à la Guyane a
+connu une progression plus lente, du fait des conditions naturelles
+particulières qui mènent à des cortèges diatomiques très spécifiques et
+encore fortement méconnus. En l’absence d’un dispositif plus adapté, un
+système réglementaire d’évaluation basé sur une adaptation locale de
+l’IPS a été mis en place pour mesurer l’État Écologique des cours
+d’eau de Guyane (cf. Arrêté Évaluation du 27 Juillet 2015), malgré des
+faiblesses évidentes liées au décalage biogéographique du profil de
+beaucoup de taxons de l’IPS, établis à partir de données mondiales.
+Cependant, l’augmentation progressive des référentiels capitalisés dans
+le cadre des réseaux de suivi Guyanais sur ces 9 dernières années, ainsi
+que les progrès réalisés sur la taxonomie, ont rendu possible la
+réalisation de la présente étude 2017-2018 visant à l’élaboration d’un
+nouvel Indice Diatomique pour la Guyane Française (IDGF).
 
-En attendant son déploiement sur le CRAN, ce package peut être installé
-manuellement ou par la commande suivante (nécessite une connexion
-internet) :
+En tirant les enseignements adéquats des précédents indices diatomiques
+élaborés dans d’autres DOM-COM, une méthodologie adaptée au contexte
+Guyanais a été développée en se basant (i) sur une réduction du nombre
+de taxons pris en compte dans les assemblages et (ii) sur la recherche
+de taxons d’alerte dans une optique multimétrique. Cette approche a
+permis la conception d’un indice qui présente une évaluation écologique
+compatible avec les préconisations de la DCE (notion d’écart à une
+référence régionale) et donne des résultats pertinents, selon l’avis
+des experts locaux, et cohérents par rapport au contexte naturel et aux
+activités anthropiques rencontrés en Guyane.
+
+La présente notice d’utilisation accompagne le package R `IDGF` qui a
+été développé lors de ce travail et permet de l’utiliser correctement
+pour calculer une note d’IDGF, la classe de qualité écologique qui en
+découle ainsi que de produire un diagramme d’appui au diagnostic de
+l’état écologique des masses d’eau continentales Guyanaises.
+
+# Pré-requis
+
+## Installation de R / Rstudio
+
+L’applicatif de calcul IDGF a été développé en langage R et nécessite
+donc l’installation de ce programme pour son exécution.
+
+Ce tutoriel liste les principales étapes à suivre pour installer R
+facilement (Vous pouvez ignorer les notes préliminaires sur les outils
+supplémentaires à installer) :
+
+<https://stt4230.rbind.io/introduction/installation_r_rstudio>
+
+Il est vivement conseillé d’installer Rstudio à la suite de R (toujours
+en suivant ce tutoriel). Rstudio est une interface graphique permettant
+d’exécuter des programmes R de façon plus conviviale que via la console
+R classique.
+
+**Important** : Pour les utilisateurs Windows, il est important de
+suivre la procédure de ce tutoriel pour installer RTools. En effet, la
+majorité des packages récemment développés sous R (tels que le package
+IDGF) s’appuient sur des librairies (modules externes) qui nécessitent
+l’installation du programme Rtools.
+
+## Prise en main de R
+
+Si vous découvrez R, alors nous vous conseillons la lecture du chapitre
+suivant :
+
+<https://stt4230.rbind.io/introduction/base_r/>
+
+# Installation du package IDGF
+
+## Depuis l’espace Hydrobio-DCE (version “stable”)
+
+Cet applicatif accompagné de sa notice utilisateur sont disponibles au
+téléchargement sur le site Hydrobio-DCE :
+<https://hydrobio-dce.inrae.fr/>.
+
+Dans l’archive (.zip) téléchargée depuis cet espace, se trouvent la
+présente notice, un fichier de projet Rstudio `.Rproj` ainsi qu’une
+archive au format `.tar.gz`. Cette archive est un package R contenant
+les fonctions nécessaires pour la réalisation de l’IDGF. Après avoir
+extrait cette archive sur votre ordinateur, vous pouvez ouvrir le
+fichier de projet `.Rproj`, ce qui ouvrira directement Rstudio
+correctement configuré en termes de chemin d’accès.
+
+Pour installer le package IDGF ainsi que ses dépendences associées, vous
+pouvez exécuter dans la console :
 
 ``` r
-if (!require(devtools)){install.packages("devtools")}
-
-devtools::install_github("irstea/IDGF")
+remotes::install_local("IDGF.tar.gz")
 ```
 
-Puis, on charge le package :
+Ceci devrait installer le package ainsi que ses dépendances. Cette
+opération peut être chronophage si vous n’avez jamais installé de
+packages R auparavant.
+
+**En cas d’erreur, merci de vérifier que RTools est bien installé**
+
+Si l’installation s’est bien passée, alors la commande suivante devrait
+fonctionner :
 
 ``` r
 library(IDGF)
 ```
 
-## Description
+## Depuis la forge logicielle GitHub (version “développeur”)
 
-Le package est actuellement composé de deux fonctions et d’un jeu de
-données fictif :
+La version en cours de développement du package R est également hébergée
+sur github :
 
-  - `IDGF()` permet le calcul de l’indice et renvoie un tableau
-    contenant les valeurs des différentes métriques (exprimées en EQR),
-    une indication sur la robustesse de l’indice ainsi que la proportion
-    et identité des taxons inconnus ou halins.
+<https://github.com/davidcarayon/IDGF>
 
-Le format d’entrée attendu correspond au jeu de données fictif intégré
-au package `taxa.GF` et est le suivant :
+Il est donc possible d’installer le package par la fonction suivante :
 
 ``` r
-head(taxa.GF)
-#> # A tibble: 6 x 4
-#>   cd_opecont cd_taxon abondance   her
-#>        <int> <chr>        <dbl> <int>
-#> 1        792 ADCT           118     2
-#> 2        792 ZZZZ             3     2
-#> 3        792 ADM2            24     2
-#> 4        792 ADMA            15     2
-#> 5        792 CA07             1     2
-#> 6        792 CADH             1     2
+remotes::install_github("davidcarayon/IDGF")
 ```
 
-Les noms de chaque colonne peuvent être différents, mais l’ordre des 4
-colonnes doit être scrupuleusement suivi. Aucun texte ne doit être
-introduit dans les colonnes d’abondance ou d’HER. L’HER 1 correspond à
-la plaine littorale du nord tandis que l’HER 2 correspond au bouclier
-guyanais.
-
-  - `Diagnostic_IDGF()` trace les diagrammes d’appui au diagnostic et
-    prend comme entrée les résultats de la fonction `IDGF()`
-
-## Exemple
-
-Dans un premier temps, l’IDGF peut simplement être calculé et stocké
-dans un objet `results` :
+Ici encore si l’installation s’est bien passée, alors la commande
+suivante devrait fonctionner :
 
 ``` r
-results <- IDGF(df = taxa.GF)
-#> 1/4 : Vérification des données
-#> 2/4 : Standardisation et transcodage
-#> 3/4 : Calcul des métriques brutes
-#> 4/4 : Calcul de l'IDGF et aggrégation
-#> ✓ Calcul de l'IDGF terminé
-#> ✓ Le fichier .csv a été exporté dans : 
-#> output/resultats_idgf_2019-07-03_13.30.30.csv
-#>  Il est encodé en UTF-8 et a comme séparateur le point-virgule (;) et comme décimale la virgule (,)
+library(IDGF)
 ```
 
-On affiche le tableau de sortie :
+# Présentation de l’applicatif
+
+## Modules et fonctionnalités
+
+Le package R IDGF est constitué de 4 modules interconnectés :
+
+  - `importIDGF()` : Importe les données dans R à partir d’un fichier de
+    données (type excel), puis applique quelques transformations telles
+    que des transcodages de synonymes.
+
+  - `computeIDGF()` : Calcule, à partir des données importées via la
+    fonction précédente, les différentes métriques de l’IDGF en se
+    basant sur des tableaux internes listant le statut de chaque taxon
+    (alerte, halin, etc.) ainsi que les valeurs de référence pour chaque
+    HER.
+
+  - `radarIDGF()` : Module facultatif qui produit des diagrammes radar
+    d’appui au diagnostic à partir des résultats de la fonction
+    précédente
+
+  - `exportIDGF()` : Exporte les résultats de l’IDGF (score des
+    métriques individuelles, évaluation de l’état écologique) au format
+    .csv et les diagrammes de diagnostic au format .png (si la fonction
+    de radar a été utilisée) dans le répertoire de travail.
+
+![](man/figures/README-pipeline.png)
+
+## Données internes embarquées
+
+L’outil de calcul IDGF fait appel à différentes tables de références qui
+ont été constituées lors de la création de l’indice et qui sont stockées
+dans un fichier interne au package. Ces tables de référence sont au
+nombre de 3 :
+
+1.  `transcode` : Table de transcodage permettant de faire correspondre
+    un code taxon 4-lettres (type OMNIDIA) à son entité taxonomique qui
+    a été considérée pour la construction de l’IDGF.
+
+2.  `table_metrics` : Table contenant une information binaire pour
+    chaque taxon et donnant une indication sur si le taxon considéré est
+    halin, indiciel, ou taxon d’alerte d’un ou plusieurs paramètres
+    d’anthropisation (et si oui, desquels). Les informations de cette
+    table sont utilisée pour définir le statut du taxon (indiciel, non
+    indiciel, halin ou inconnu) et est combinée aux listes floristiques
+    insérées dans l’algorithme par multiplication.
+
+3.  `table_ref` : Table contenant les valeurs de référence pour chaque
+    paramètre *composite* d’anthropisation selon l’hydroécorégion
+    considérée (1 pour la plaine littorale, 2 pour le bouclier
+    Guyanais)
+
+# Préparation des données
+
+Actuellement, l’IDGF n’accepte qu’un format d’entrée correspondant
+scrupuleusement à cette configuration en 4 colonnes:
+
+![](man/figures/README-cap_office.png)
+
+## Description des champs
+
+  - id\_releve
+      - Description : Correspond à l’identifiant unique du relevé
+        diatomique.
+      - Format : Chaîne de caractères ou nombre entier
+      - Exemple : “A” ou 10
+  - cd\_taxon
+      - Description : Code OMNIDIA du taxon
+      - Format : Chaîne de 4 caractères
+      - Exemple : “ADCT” ou “CA07”
+  - abondance
+      - Description : Nombre de valves comptées
+      - Format : Entier positif
+  - her
+      - Numéro de l’HER. 1 pour la Plaine Littorale et 2 pour le
+        Bouclier Guyanais
+      - Format : Entier positif, soit 1 soit 2
+
+## Sauvegarde et format
+
+Ce fichier peut être sauvegardé sous différents formats :
+
+  - Fichier Microsoft Excel 2003-2007 : .xls
+  - Fichier Microsoft Excel plus récents : .xlsx
+  - Fichier texte plat au format .csv : **Attention aux paramètres :
+    séparateurs en point-virgule et décimale en point**
+
+Veillez à bien placer votre fichier de données dans votre répertoire de
+travail (pour le vérifier, taper `getwd()`et pour le modifier, aller
+dans Session \> Définir le répertoire courant).
+
+# Utilisation de l’applicatif
+
+## Via une interface interactive (*New\!*)
+
+## Via lignes de code
+
+Le script R “script\_calcul\_IDGF.R” présent dans l’archive
+téléchargeable depuis hydrobioDCE (cf. 3.1) contient l’ensemble des
+lignes de commandes à éxecuter pour réaliser l’IDGF. Si vous ne disposez
+pas de ce fichier, les lignes suivantes vous permettrons d’utiliser
+l’applicatif.
 
 ``` r
-results
-#> # A tibble: 12 x 16
-#>    id_releve pourcentage_ind… pourcentage_hal… MES   MINE. Mat.Orga NO3  
-#>        <int>            <dbl>            <dbl> <chr> <chr> <chr>    <chr>
-#>  1       792             98.5              0   0.94  0.94  0.99     0.97 
-#>  2       821             98.2              0   0.26  1     1        1    
-#>  3       841             94                0   1     1     0.74     0.96 
-#>  4       851             98.8              0   0.93  1     1        1    
-#>  5       882            100                0   0.63  1     1        0.88 
-#>  6       899             87                0   1     1     1        0.84 
-#>  7       912             92.8              0.5 0.58  1     0.79     0.91 
-#>  8       928             74.8              0   ""    ""    ""       ""   
-#>  9       952             82.5              0   0.98  0.99  1        0.93 
-#> 10       968             99.2              0   0.74  0.89  0.98     0.97 
-#> 11       981             95.2              0   1     1     1        1    
-#> 12      1043             69.2              0   ""    ""    ""       ""   
-#> # … with 9 more variables: `N-Orga` <chr>, `P-Trophie` <chr>,
-#> #   SAT.O2 <chr>, IDGF <chr>, NumClasse <chr>, Classe <chr>,
-#> #   fiabilité <chr>, Taxons_halins <chr>, Taxons_inconnus <chr>
+library(IDGF) # Veiller à exécuter cette commande au moins une fois avant de lancer le script
+
+# Vérifier le répertoire de travail (où R va chercher les données puis exporter les résultats)
+getwd()
+
+# Définir le nom du fichier de données, par exemple : "test_fichier.xlsx"
+# /!\ A MODIFIER /!\ puis le reste peut être exécuté d'un bloc
+nom_fichier <- "a_remplacer"
+
+# Import des données
+IDGFdata <- importIDGF(nom_fichier)
+
+# Calcul de l'IDGF
+IDGFres <- computeIDGF(IDGFdata)
+
+# Production des diagrammes d'appui au diagnostic
+IDGFresrad <- radarIDGF(IDGFres)
+
+# Export des données et graphiques dans un dossier appelé 'sorties' (modifiable)
+exportIDGF(IDGFresrad, outdir = "sorties")
+
+## Fin de l'algorithme
 ```
 
-Ensuite, nous ne conservons qu’une fraction des relevés pour l’exemple :
+# Compréhension des résultats
 
-``` r
-frac_results <- filter(results,id_releve %in% c("882","981")) 
-```
+Le tableau des résultats présente les champs suivants :
 
-Nous pouvons tracer les diagrammes d’appui au diagnostic pour ces deux
-relevés :
+  - id\_releve : Le nom donné au relevé diatomique
+  - pourcentage\_indiciel : Pourcentage de taxons de l’assemblage qui
+    figurent dans la liste des taxons indiciels
+  - pourcentage\_halins : Pourcentage de taxons de l’assemblage qui
+    figurent dans la liste des taxons halins
+  - MES à SAT.O2 : Valeur de chaque métrique constitutive de l’IDGF
+  - IDGF : Valeur de l’IDGF
+  - NumClasse : Numéro correspondant à la classe d’état écologique (1 =
+    Très bon, 5 = Mauvais)
+  - Classe : Classe d’état écologique
+  - Fiabilité : Indication de fiabilité basée sur le pourcentage de
+    taxons indiciels présents
+  - Taxons\_halins : Identité des taxons identifiés dans le relevé comme
+    halins, séparés par une virgule
+  - Taxons\_inconnus : Identité des taxons identifiés dans le relevé et
+    ne trouvant pas de correspondance dans le table de transcodage,
+    séparés par une virgule
 
-``` r
-Diagnostic_IDGF(result_IDGF = frac_results)
-#> ✓ Graphique produit pour la station...882
-#> ✓ Graphique produit pour la station...981
-#> ✓ Les graphiques ont été exportés dans 
-#> output/radar_idgf_2019-07-03_13.30.30.pdf
-#>  Chaque page du PDF correspond à un prélèvement
-```
+# A propos
+
+Le package de calcul de l’IDGF est un programme libre; vous pouvez le
+redistribuer ou le modifier suivant les termes de la GNU General Public
+License (GPL) telle que publiée par la Free Software Foundation; soit la
+version 3 de la licence, soit (a votre gré) toute version ultérieure. Ce
+travail est diffusé dans l’espoir qu’il sera utile, mais sans aucune
+garantie de qualité marchande ou d’adéquation à un but particulier.
+
+En cas de problèmes rencontrés avec l’outil, contacter :
+
+  - David Carayon <david.carayon@inrae.fr>
+  - François Delmas <francois.delmas@inrae.fr>
+
+# Références
+
+Carayon, D., Eulin, A., Vigouroux, R. Delmas, F. (submitted). A new
+multimetric index for the evaluation of water ecological quality of
+French Guiana streams based on benthic diatoms. Ecological Indicators
+
+David Carayon & François Delmas (2020). IDGF: Indice Diatomique de
+Guyane Française. R package version 1.0
+
+Carayon, D., Eulin, A., Vigouroux, R. Delmas, F. (2019). Evaluation de
+l’état écologique des cours d’eau de Guyane française : L’Indice
+Diatomique pour la Guyane Française (IDGF) : Rapport final

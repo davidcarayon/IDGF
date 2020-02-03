@@ -6,7 +6,6 @@ model_IDGF <- function(meanEQR) {
 
 }
 
-
 Metric2EQR <- function(metric,HER,par) {
   refvalue = table_ref %>% dplyr::filter(numher1 == HER & param == par) %>%
     dplyr::select(ref) %>% dplyr::pull()

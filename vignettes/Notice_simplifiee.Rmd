@@ -1,17 +1,14 @@
 ---
-output: github_document
+title: "Applicatif R IDGF : Notice simplifiée d'utilisation"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Applicatif R IDGF : Notice simplifiée d'utilisation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r setup, include = FALSE, message=FALSE,warning=FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-"
-)
-```
-# Applicatif de calcul R pour l'IDGF
 
 ```{r options, include = FALSE}
 knitr::opts_chunk$set(
@@ -20,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup package, echo = FALSE}
+```{r setup, echo = FALSE}
 library(IDGF)
 ```
 
@@ -111,7 +108,9 @@ Le package R IDGF est constitué de 4 modules interconnectés :
 - `exportIDGF()` : Exporte les résultats de l'IDGF (score des métriques individuelles, évaluation de l'état écologique) au format .csv et les diagrammes de diagnostic au format .png (si la fonction de radar a été utilisée) dans le répertoire de travail.
 
 
-![](man/figures/README-pipeline.png)
+```{r pipeline, out.width = "100%", fig.align = "center", echo = FALSE}
+knitr::include_graphics("../man/figures/README-pipeline.png")
+```
 
 
 ## Données internes embarquées
@@ -128,7 +127,9 @@ L'outil de calcul IDGF fait appel à différentes tables de références qui ont
 
 Actuellement, l’IDGF n’accepte qu’un format d’entrée correspondant scrupuleusement à cette configuration en 4 colonnes:
 
-![](man/figures/README-cap_office.png)
+```{r preparation office, out.width = "100%", fig.align = "center", echo = FALSE}
+knitr::include_graphics("../man/figures/README-cap_office.png")
+```
 
 ## Description des champs
 

@@ -1,17 +1,15 @@
-#' Sorties graphiques de l'IDGF
+#' Production de diagrammes de diagnostic issus de l'IDGF
 #'
-#' Produit des diagrammes d'appui au diagnostic basés sur les résultats d'un IDGF
-#' @param result_IDGF Les résultats issus de la fonction `IDGF()`
-#' @param export Boléen pouvant prendre seulement deux valeurs (TRUE ou FALSE) spécifiant si l'algorithme doit exporter les résultats dans un fichier .csv dans le répertoire courant.
-#' @return Graphiques d'appui au diagnostic pour chaque relevé présent dans le tableau initial
+#' @param IDGFres sortie de la fonction `computeIDGF()`
 #'
-#' @examples
-#' res.IDGF <- IDGF(taxa.GF)
-#' Diagnostic_IDGF(res.IDGF, export = TRUE)
+#' @return une liste
 #' @importFrom magrittr %>%
 #' @export
 #'
-Diagnostic_IDGF <- function(result_IDGF, export = TRUE){
+#' @examples
+radarIDGF <- function(IDGFres){
+
+  result_IDGF <- IDGFres
 
   id_releves <- result_IDGF %>% dplyr::mutate(nc = nchar(Classe)) %>%
     dplyr::filter(nc > 0) %>%
@@ -27,12 +25,7 @@ Diagnostic_IDGF <- function(result_IDGF, export = TRUE){
     dplyr::mutate(param = factor(param, levels = c("SAT.O2","Mat.Orga","N-Orga","P-Trophie","NO3","MINE.","MES")))
 
 
-  if(export) {
-    s.time <- paste0(strsplit(as.character(Sys.time())," ")[[1]],collapse = "_")
-    time <- paste0(strsplit(s.time,":")[[1]],collapse = ".")
-    if(!dir.exists("output")) {dir.create("output")}
-    pdf(paste0("output/radar_idgf_",time,".pdf"))
-  }
+  plotlist <- list()
 
   for( i in id_releves) {
 
@@ -40,7 +33,7 @@ Diagnostic_IDGF <- function(result_IDGF, export = TRUE){
 
     plot<-result_graph %>%
       dplyr::filter(id_releve == i) %>%
-    ggplot2::ggplot(ggplot2::aes(x = param, y = radar_metric)) +
+      ggplot2::ggplot(ggplot2::aes(x = param, y = radar_metric)) +
       ggplot2::geom_bar(ggplot2::aes(fill = EQR),stat = "identity",color="black") +
       ggplot2::scale_y_continuous(limits = c(0,1))+
       ggplot2::scale_fill_gradientn(breaks = c(0,0.2,0.4,0.6,0.8,1.0), limits = c(0,1),colours = c("#FC4E07", "#E7B800", "#00AFBB"))+
@@ -53,17 +46,18 @@ Diagnostic_IDGF <- function(result_IDGF, export = TRUE){
       ggplot2::theme(axis.text.x = ggplot2::element_text(face = "bold",size = 11,color="black"))
 
 
-    print(plot)
+    plotlist[[as.character(i)]] <- plot
 
-    cat(crayon::green(paste0("\u2713 Graphique produit pour la station...",i,"\n")))
+    cat(paste0("\u2713 Graphique produit pour l'opération...",i,"\n"))
 
   }
 
-if(export) {
-  dev.off()
-  cat(crayon::green(crayon::bold(paste0("\u2713 Les graphiques ont été exportés dans \n",paste0("output/radar_idgf_",time,".pdf"),"\n Chaque page du PDF correspond à un prélèvement"))))
-}
+  join_plot <- tibble::tibble(id_releve = id_releves, plot = plotlist)
+
+
+  output <- dplyr::inner_join(IDGFres,join_plot, by = "id_releve")
+
+  return(output)
+
 
 }
-
-
