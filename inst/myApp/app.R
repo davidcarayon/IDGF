@@ -1,8 +1,12 @@
+## Définition des packages
 library(shiny)
 library(shinydashboard)
 library(IDGF)
 library(DT)
 
+
+
+## CSS pour la largeur du bouton de téléchargement
 css3 <- HTML("
 .shiny-download-link {width: 100%;text-align: center;}")
 
@@ -12,19 +16,20 @@ css2 <- HTML("
     fill: #FFFFFF
 }")
 
-# Define UI for application that draws a histogram
+# Définition de l'interface utilisateur en mode dashboard
 ui <- dashboardPage(skin = "green",
 
                     ## Le header
                     dashboardHeader(title="Applicatif IDGF", titleWidth = 300),
 
-                    ## Le sidebar, avec l'input, des item et subitem
+                    ## Le sidebar, avec l'input et items
                     dashboardSidebar(width = 350,h4(
                                      fileInput("files", "Charger le fichier de données (format excel)", accept = c(".xls",".xlsx",".csv")),
                                      sidebarMenu(id = "tabs",
                                                  menuItem("Résultats bruts", tabName = "table", icon = icon("list")),
                                                  menuItem("Graphiques de diagnostic", tabName = "diagnostic", icon = icon("tachometer"))))),
 
+                    ## Le corps de l'application
                     dashboardBody(
                         tags$head(tags$style(css2)),
                         tags$head(tags$style(css3)),
@@ -43,16 +48,17 @@ ui <- dashboardPage(skin = "green",
 )
 
 
-# Define server logic required to draw a histogram
+# Logique serveur
 server <- function(input, output) {
 
+    ## Import des données
     IDGFdata <- eventReactive(input$files, {
 
     IDGF::importIDGF(input = input$files$datapath)
 
     })
 
-    ## Production des plots dimension
+    ## Calcul de l'IDGF
     IDGFres <- eventReactive(input$files, {
 
         IDGFdata() %>% computeIDGF()
@@ -67,19 +73,21 @@ server <- function(input, output) {
     })
 
 
+    ## Affichage des diagrammes radar
     output$myplot <- renderPlot({
 
         ggpubr::ggarrange(plotlist = IDGFresrad()$plot)
 
     })
 
+    ## Affichage du tableau des résultats
     output$mytable <- renderTable({
 
     IDGFres() %>% dplyr::mutate(id_releve = as.character(id_releve))
 
     })
 
-
+    ## Affichage des zones de texte
     output$mytext <- renderUI({
 
         inFile <- input$files
@@ -90,11 +98,7 @@ server <- function(input, output) {
                 h1(tags$b(div(style="display:inline-block;width:100%;text-align: left;","\U2190 Pour démarrer l'application, charger un fichier de données au format .xls, .xlsx ou .csv")))
             )
 
-
-
         n_operations = dplyr::n_distinct(IDGFres()$id_releve)
-
-
 
         h2(tags$b(div(style="display:inline-block;width:100%;text-align: left;",paste0("\U2713 Le fichier de données a été correctement importé. Il contient ",n_operations," opérations de contrôle."))),style = "color:green")
 
@@ -103,6 +107,7 @@ server <- function(input, output) {
 
 
 
+    ## Définition du bouton de téléchargement qui n'apparaît qu'après avoir chargé des données
     output$dl <- renderUI({
 
         inFile <- input$files
@@ -116,6 +121,7 @@ server <- function(input, output) {
     })
 
 
+    ## Construction du .zip à télécharger
     output$zipfile <- downloadHandler(
         filename = "export_IDGF.zip",
         content = function(file) {
@@ -155,5 +161,5 @@ server <- function(input, output) {
 
 }
 
-# Run the application
+# Lancer l'application
 shinyApp(ui = ui, server = server)
