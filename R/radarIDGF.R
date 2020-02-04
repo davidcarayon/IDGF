@@ -1,12 +1,19 @@
 #' Production de diagrammes de diagnostic issus de l'IDGF
 #'
+#'Cette fonction s'appuie sur les résultats issus de `computeIDGF()` et y rajoute un diagramme d'appui au diagnostic pour chaque opération de contrôle.
 #' @param IDGFres sortie de la fonction `computeIDGF()`
 #'
-#' @return une liste
+#' @return Renvoie le tableau issu de la fonction `computeIDGF()` en y rajoutant une colonne contenant les graphiques
 #' @importFrom magrittr %>%
 #' @export
 #'
 #' @examples
+#' library(IDGF)
+#' data <- system.file("input_test.xlsx", package = "IDGF)
+#' IDGFdata <- importIDGF(data)
+#' IDGFres <- computeIDGF(IDGFdata)
+#' IDGFresrad <- radarIDGF(IDGFres)
+#' head(IDGFresrad)
 radarIDGF <- function(IDGFres){
 
   result_IDGF <- IDGFres

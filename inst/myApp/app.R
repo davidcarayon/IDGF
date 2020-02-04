@@ -1,6 +1,7 @@
 library(shiny)
 library(shinydashboard)
 library(IDGF)
+library(DT)
 
 css3 <- HTML("
 .shiny-download-link {width: 100%;text-align: center;}")
@@ -22,9 +23,7 @@ ui <- dashboardPage(skin = "green",
                                      fileInput("files", "Charger le fichier de données (format excel)", accept = c(".xls",".xlsx",".csv")),
                                      sidebarMenu(id = "tabs",
                                                  menuItem("Résultats bruts", tabName = "table", icon = icon("list")),
-                                                 menuItem("Graphiques de diagnostic", tabName = "diagnostic", icon = icon("tachometer"))),
-                                     br(),
-                                     downloadButton("downloadData", "Exporter les résultats"))),
+                                                 menuItem("Graphiques de diagnostic", tabName = "diagnostic", icon = icon("tachometer"))))),
 
                     dashboardBody(
                         tags$head(tags$style(css2)),
@@ -33,7 +32,11 @@ ui <- dashboardPage(skin = "green",
                             tabItem(tabName = "diagnostic",
                                     plotOutput("myplot", height = "900px")),
                             tabItem(tabName = "table",
-                                    tableOutput("mytable"))
+                                    uiOutput("mytext", ),
+                                    br(),
+                                    box(tableOutput("mytable"), width = 12),
+                                    br(),
+                                    uiOutput("dl"))
                         )
                     )
 
@@ -72,13 +75,61 @@ server <- function(input, output) {
 
     output$mytable <- renderTable({
 
-    IDGFres()
+    IDGFres() %>% dplyr::mutate(id_releve = as.character(id_releve))
 
     })
 
-    output$downloadData <- downloadHandler(
+
+    output$mytext <- renderUI({
+
+        inFile <- input$files
+
+        if (is.null(inFile))
+            return(
+
+                h1(tags$b(div(style="display:inline-block;width:100%;text-align: left;","\U2190 Pour démarrer l'application, charger un fichier de données au format .xls, .xlsx ou .csv")))
+            )
+
+
+
+        n_operations = dplyr::n_distinct(IDGFres()$id_releve)
+
+
+
+        h2(tags$b(div(style="display:inline-block;width:100%;text-align: left;",paste0("\U2713 Le fichier de données a été correctement importé. Il contient ",n_operations," opérations de contrôle."))),style = "color:green")
+
+
+    })
+
+
+
+    output$dl <- renderUI({
+
+        inFile <- input$files
+
+        if (is.null(inFile))
+            return()
+
+        downloadButton("zipfile", "Exporter ce tableau au format .csv ainsi que les graphiques au format .png", style = "width:100%;")
+
+
+    })
+
+
+    output$zipfile <- downloadHandler(
         filename = "export_IDGF.zip",
         content = function(file) {
+
+
+            inFile <- input$files
+
+            if (is.null(inFile))
+                return(
+
+                    h1(tags$b(div(style="display:inline-block;width:100%;text-align: left;","\U2190 Pour démarrer l'application, charger un fichier de données au format .xls, .xlsx ou .csv")))
+                )
+
+
 
             withProgress(message = "Production des figures en cours........", detail = "Merci de patienter quelques instants", value = 0.2,{
 

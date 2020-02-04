@@ -10,8 +10,8 @@ importIDGF(input)
 \item{input}{Le nom du fichier de données à importer (ou un chemin)}
 }
 \value{
-une liste
+Renvoie une liste à 4 éléments contenant (1) le jeu de données importé (2) les métadonnées relatives à l'HER (3) les taxons inconnus et (4) les taxons halins
 }
 \description{
-Import des données
+Cette fonction procède à l'import d'un fichier de données destiné au calcul de l'IDGF. Le tableau importé doit être composé de 4 colonnes (dans cet ordre) : id_releve, cd_taxon, abondance, her (1 pour la plaine littorale ou 2 pour le bouclier Guyanais). Les formats de fichier acceptés sont les formats excels (.xls et .xlsx) et le format .csv en veillant à utiliser le point-virgule comme séparateur et le point comme décimale.
 }

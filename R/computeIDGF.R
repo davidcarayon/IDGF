@@ -1,12 +1,18 @@
 #' Calcul de l'IDGF
 #'
+#' Cette fonction procède au calcul des différentes métriques constitutives de l'IDGF puis à l'évaluation de l'état écologique en se basant sur différentes tables de référence internes et sur l'indication de l'HER dans les données d'entrée.
 #' @param IDGFdata Données importées par `importIDGF()`
 #'
-#' @return une liste
+#' @return Renvoie un tableau présentant l'ensemble des résultats (score par métrique, évaluation de l'état écologique, statistiques sur les taxons indiciels/halins/inconnus)
 #' @importFrom magrittr %>%
 #' @export
 #'
 #' @examples
+#' library(IDGF)
+#' data <- system.file("input_test.xlsx", package = "IDGF)
+#' IDGFdata <- importIDGF(data)
+#' IDGFres <- computeIDGF(IDGFdata)
+#' head(IDGFres)
 computeIDGF <- function(IDGFdata){
 
   df_standard <- IDGFdata$dataset

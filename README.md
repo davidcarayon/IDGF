@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Applicatif de calcul R pour l’IDGF
+# Applicatif simplifié de calcul R pour l’IDGF
 
 # Préambule
 
@@ -250,10 +250,11 @@ du bouton de chargement, puis il sera possible de visionner à partir des
 modules de la barre latérale :
 
   - Les résultats bruts (sous forme de tableau)
-  - Les diagrammes de diagnostic
+  - Les diagrammes de diagnostic (Note : L’affichage des graphiques peut
+    nécessiter quelques secondes)
 
-Enfin, il est possible de télécharger ces résultats sous forme d’archive
-.zip.
+Enfin, il est possible de télécharger l’ensemble de ces résultats sous
+forme d’archive compressée.
 
 ## Via lignes de code
 
@@ -331,7 +332,7 @@ multimetric index for the evaluation of water ecological quality of
 French Guiana streams based on benthic diatoms. Ecological Indicators
 
 David Carayon & François Delmas (2020). IDGF: Indice Diatomique de
-Guyane Française. R package version 1.0
+Guyane Française. R package version 2.0
 
 Carayon, D., Eulin, A., Vigouroux, R. Delmas, F. (2019). Evaluation de
 l’état écologique des cours d’eau de Guyane française : L’Indice

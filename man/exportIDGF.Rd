@@ -7,10 +7,10 @@
 exportIDGF(IDGFres, outdir = paste0("RES_", Sys.Date()))
 }
 \arguments{
-\item{IDGFres}{résultats IDGF issus de `computeIDGF()` ou `radarIDGF()`}
+\item{IDGFres}{Résultats IDGF issus de `computeIDGF()` ou `radarIDGF()`}
 
-\item{outdir}{Dossier de sortie à définir pour les résultats}
+\item{outdir}{Dossier de destination des fichiers, à définir par l'utilisateur}
 }
 \description{
-Export des résultats et graphiques issus de l'IDGF
+Cette fonction permet de sauvegarder les résultats issus de l'applicatif IDGF sous forme de tableau (.csv) et de graphiques (.png) dans un répertoire défini par l'utilisateur.
 }

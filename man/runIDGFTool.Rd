@@ -2,10 +2,14 @@
 % Please edit documentation in R/runIDGFTool.R
 \name{runIDGFTool}
 \alias{runIDGFTool}
-\title{Run the shiny App}
+\title{Applicatif simplifié IDGF}
 \usage{
 runIDGFTool()
 }
 \description{
-Run the shiny App
+Cette fonction exécute un applicatif développé via le package Rshiny pour proposer une interface graphique.
+}
+\examples{
+library(IDGF)
+# runIDGFTool()
 }

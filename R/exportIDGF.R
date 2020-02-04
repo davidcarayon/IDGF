@@ -1,13 +1,21 @@
 #' Export des résultats et graphiques issus de l'IDGF
 #'
-#' @param IDGFres résultats IDGF issus de `computeIDGF()` ou `radarIDGF()`
-#' @param outdir Dossier de sortie à définir pour les résultats
+#' Cette fonction permet de sauvegarder les résultats issus de l'applicatif IDGF sous forme de tableau (.csv) et de graphiques (.png) dans un répertoire défini par l'utilisateur.
+#'
+#' @param IDGFres Résultats IDGF issus de `computeIDGF()` ou `radarIDGF()`
+#' @param outdir Dossier de destination des fichiers, à définir par l'utilisateur
 #'
 #' @return
 #' @importFrom magrittr %>%
 #' @export
 #'
 #' @examples
+#' library(IDGF)
+#' data <- system.file("input_test.xlsx", package = "IDGF)
+#' IDGFdata <- importIDGF(data)
+#' IDGFres <- computeIDGF(IDGFdata)
+#' IDGFresrad <- radarIDGF(IDGFres)
+#' exportIDGF(IDGFresrad, outdir = "sorties")
 exportIDGF <- function(IDGFres, outdir = paste0("RES_",Sys.Date())){
 
 

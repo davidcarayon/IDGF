@@ -10,8 +10,8 @@ radarIDGF(IDGFres)
 \item{IDGFres}{sortie de la fonction `computeIDGF()`}
 }
 \value{
-une liste
+Renvoie le tableau issu de la fonction `computeIDGF()` en y rajoutant une colonne contenant les graphiques
 }
 \description{
-Production de diagrammes de diagnostic issus de l'IDGF
+Cette fonction s'appuie sur les résultats issus de `computeIDGF()` et y rajoute un diagramme d'appui au diagnostic pour chaque opération de contrôle.
 }

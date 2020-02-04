@@ -10,8 +10,8 @@ computeIDGF(IDGFdata)
 \item{IDGFdata}{Données importées par `importIDGF()`}
 }
 \value{
-une liste
+Renvoie un tableau présentant l'ensemble des résultats (score par métrique, évaluation de l'état écologique, statistiques sur les taxons indiciels/halins/inconnus)
 }
 \description{
-Calcul de l'IDGF
+Cette fonction procède au calcul des différentes métriques constitutives de l'IDGF puis à l'évaluation de l'état écologique en se basant sur différentes tables de référence internes et sur l'indication de l'HER dans les données d'entrée.
 }

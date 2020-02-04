@@ -1,7 +1,11 @@
-#' Run the shiny App
+#' Applicatif simplifié IDGF
 #'
+#' Cette fonction exécute un applicatif développé via le package Rshiny pour proposer une interface graphique.
 #' @importFrom magrittr %>%
 #' @export
+#' @examples
+#' library(IDGF)
+#' # runIDGFTool()
 runIDGFTool <- function() {
   appDir <- system.file("myApp", package = "IDGF")
   if (appDir == "") {
