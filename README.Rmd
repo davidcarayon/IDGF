@@ -2,6 +2,8 @@
 output: github_document
 ---
 
+![](man/figures/README-idgf_logo.png)
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r setup, include = FALSE, message=FALSE,warning=FALSE}
