@@ -1,9 +1,9 @@
 
-![](man/figures/README-idgf_logo.png)
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # Applicatif simplifié de calcul R pour l’IDGF
+
+![](man/figures/README-idgf_logo.png)
 
 # Préambule
 
