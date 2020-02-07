@@ -15,3 +15,11 @@ Renvoie le tableau issu de la fonction `computeIDGF()` en y rajoutant une colonn
 \description{
 Cette fonction s'appuie sur les résultats issus de `computeIDGF()` et y rajoute un diagramme d'appui au diagnostic pour chaque opération de contrôle.
 }
+\examples{
+library(IDGF)
+data <- system.file("input_test.xlsx", package = "IDGF")
+IDGFdata <- importIDGF(data)
+IDGFres <- computeIDGF(IDGFdata)
+IDGFresrad <- radarIDGF(IDGFres)
+head(IDGFresrad)
+}

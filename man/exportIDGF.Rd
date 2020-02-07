@@ -11,6 +11,17 @@ exportIDGF(IDGFres, outdir = paste0("RES_", Sys.Date()))
 
 \item{outdir}{Dossier de destination des fichiers, à définir par l'utilisateur}
 }
+\value{
+Les résultats sont exportés dans le dossier défini par l'utilisateur
+}
 \description{
 Cette fonction permet de sauvegarder les résultats issus de l'applicatif IDGF sous forme de tableau (.csv) et de graphiques (.png) dans un répertoire défini par l'utilisateur.
+}
+\examples{
+library(IDGF)
+data <- system.file("input_test.xlsx", package = "IDGF")
+IDGFdata <- importIDGF(data)
+IDGFres <- computeIDGF(IDGFdata)
+IDGFresrad <- radarIDGF(IDGFres)
+exportIDGF(IDGFresrad, outdir = "sorties")
 }

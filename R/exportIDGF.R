@@ -5,13 +5,13 @@
 #' @param IDGFres Résultats IDGF issus de `computeIDGF()` ou `radarIDGF()`
 #' @param outdir Dossier de destination des fichiers, à définir par l'utilisateur
 #'
-#' @return
+#' @return Les résultats sont exportés dans le dossier défini par l'utilisateur
 #' @importFrom magrittr %>%
 #' @export
 #'
 #' @examples
 #' library(IDGF)
-#' data <- system.file("input_test.xlsx", package = "IDGF)
+#' data <- system.file("input_test.xlsx", package = "IDGF")
 #' IDGFdata <- importIDGF(data)
 #' IDGFres <- computeIDGF(IDGFdata)
 #' IDGFresrad <- radarIDGF(IDGFres)

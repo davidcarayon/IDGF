@@ -9,7 +9,7 @@
 #'
 #' @examples
 #' library(IDGF)
-#' data <- system.file("input_test.xlsx", package = "IDGF)
+#' data <- system.file("input_test.xlsx", package = "IDGF")
 #' IDGFdata <- importIDGF(data)
 #' IDGFres <- computeIDGF(IDGFdata)
 #' head(IDGFres)

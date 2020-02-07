@@ -162,8 +162,6 @@ Ce fichier peut être sauvegardé sous différents formats :
 - Fichier Microsoft Excel plus récents : .xlsx
 - Fichier texte plat au format .csv : **Attention aux paramètres : séparateurs en point-virgule et décimale en point**
 
-Veillez à bien placer votre fichier de données dans votre répertoire de travail (pour le vérifier, taper `getwd()`et pour le modifier, aller dans Session > Définir le répertoire courant).
-
 # Utilisation de l'applicatif
 
 ## Via une interface interactive
@@ -193,12 +191,15 @@ Le script R "script_calcul_IDGF.R" présent dans l'archive téléchargeable depu
 ```{r calcul IDGF, eval = FALSE}
 library(IDGF) # Veiller à exécuter cette commande au moins une fois avant de lancer le script
 
-# Vérifier le répertoire de travail (où R va chercher les données puis exporter les résultats)
-getwd()
+## Exécuter ces deux lignes pour choisir (1) le fichier d'entrée puis (2) le dossier de sortie des résultats
+nom_fichier <- rstudioapi::selectFile()
+dossier_sortie <- rstudioapi::selectDirectory()
 
-# Définir le nom du fichier de données, par exemple : "test_fichier.xlsx"
-# /!\ A MODIFIER /!\ puis le reste peut être exécuté d'un bloc
-nom_fichier <- "a_remplacer"
+## /!\ NOTE : ces fonctions ne marcheront que si vous exécutez ce code depuis Rstudio. Il existe des fonctions alternatives sans Rstudio mais qui ne fonctionnent sous windows. Vous pouvez vous en servir en retirant le "#" devant chacune des lignes avant de les exécuter :
+# nom_fichier <- file.choose() 
+# dossier_sortie <- choose.dir()
+ 
+### A partir d'ici, vous pouvez lancer le code d'un bloc.
 
 # Import des données
 IDGFdata <- importIDGF(nom_fichier)
@@ -210,7 +211,7 @@ IDGFres <- computeIDGF(IDGFdata)
 IDGFresrad <- radarIDGF(IDGFres)
 
 # Export des données et graphiques dans un dossier appelé 'sorties' (modifiable)
-exportIDGF(IDGFresrad, outdir = "sorties")
+exportIDGF(IDGFresrad, outdir = dossier_sortie)
 
 ## Fin de l'algorithme
 ```
