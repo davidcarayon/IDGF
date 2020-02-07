@@ -269,7 +269,7 @@ library(IDGF) # Veiller à exécuter cette commande au moins une fois avant de l
 nom_fichier <- rstudioapi::selectFile()
 dossier_sortie <- rstudioapi::selectDirectory()
 
-## /!\ NOTE : ces fonctions ne marcheront que si vous exécutez ce code depuis Rstudio. Il existe des fonctions alternatives sans Rstudio mais qui ne fonctionnent sous windows. Vous pouvez vous en servir en retirant le "#" devant chacune des lignes avant de les exécuter :
+## /!\ NOTE : ces fonctions ne marcheront que si vous exécutez ce code depuis Rstudio. Il existe des fonctions alternatives sans Rstudio mais qui ne fonctionnent que sous windows. Vous pouvez vous en servir en retirant le "#" devant chacune des lignes avant de les exécuter :
 # nom_fichier <- file.choose() 
 # dossier_sortie <- choose.dir()
  
