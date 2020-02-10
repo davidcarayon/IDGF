@@ -97,7 +97,8 @@ archive au format `.tar.gz`. Cette archive est un package R contenant
 les fonctions nécessaires pour la réalisation de l’IDGF. Après avoir
 extrait cette archive sur votre ordinateur, vous pouvez ouvrir le
 fichier de projet `.Rproj`, ce qui ouvrira directement Rstudio
-correctement configuré en termes de chemin d’accès.
+correctement configuré (notamment en ce qui concerne les chemins
+d’accès).
 
 Pour installer le package IDGF ainsi que ses dépendences associées, vous
 pouvez exécuter dans la console :

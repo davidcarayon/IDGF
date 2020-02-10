@@ -59,7 +59,7 @@ Si vous découvrez R, alors nous vous conseillons la lecture du chapitre suivant
 
 Cet applicatif accompagné de sa notice utilisateur sont disponibles au téléchargement sur le site Hydrobio-DCE : [https://hydrobio-dce.inrae.fr/](https://hydrobio-dce.inrae.fr/).
 
-Dans l'archive (.zip) téléchargée depuis cet espace, se trouvent la présente notice, un fichier de projet Rstudio `.Rproj` ainsi qu'une archive au format `.tar.gz`. Cette archive est un package R contenant les fonctions nécessaires pour la réalisation de l'IDGF. Après avoir extrait cette archive sur votre ordinateur, vous pouvez ouvrir le fichier de projet `.Rproj`, ce qui ouvrira directement Rstudio correctement configuré en termes de chemin d'accès.
+Dans l'archive (.zip) téléchargée depuis cet espace, se trouvent la présente notice, un fichier de projet Rstudio `.Rproj` ainsi qu'une archive au format `.tar.gz`. Cette archive est un package R contenant les fonctions nécessaires pour la réalisation de l'IDGF. Après avoir extrait cette archive sur votre ordinateur, vous pouvez ouvrir le fichier de projet `.Rproj`, ce qui ouvrira directement Rstudio correctement configuré (notamment en ce qui concerne les chemins d'accès).
 
 Pour installer le package IDGF ainsi que ses dépendences associées, vous pouvez exécuter dans la console :
 
