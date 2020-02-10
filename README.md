@@ -92,13 +92,14 @@ téléchargement sur le site Hydrobio-DCE :
 <https://hydrobio-dce.inrae.fr/>.
 
 Dans l’archive (.zip) téléchargée depuis cet espace, se trouvent la
-présente notice, un fichier de projet Rstudio `.Rproj` ainsi qu’une
-archive au format `.tar.gz`. Cette archive est un package R contenant
-les fonctions nécessaires pour la réalisation de l’IDGF. Après avoir
-extrait cette archive sur votre ordinateur, vous pouvez ouvrir le
-fichier de projet `.Rproj`, ce qui ouvrira directement Rstudio
-correctement configuré (notamment en ce qui concerne les chemins
-d’accès).
+présente notice, un fichier de projet Rstudio
+`Applicatif_IDGF_HydrobioDCE.Rproj` ainsi qu’une archive au format
+`.tar.gz`. Cette archive est un package R contenant les fonctions
+nécessaires pour la réalisation de l’IDGF. Après avoir extrait cette
+archive (**la .zip, et non la .targ.gz**) sur votre ordinateur, vous
+pouvez ouvrir le fichier de projet `Applicatif_IDGF_HydrobioDCE.Rproj`,
+ce qui ouvrira directement Rstudio correctement configuré (notamment en
+ce qui concerne les chemins d’accès).
 
 Pour installer le package IDGF ainsi que ses dépendences associées, vous
 pouvez exécuter dans la console :
@@ -111,7 +112,7 @@ Ceci devrait installer le package ainsi que ses dépendances. Cette
 opération peut être chronophage si vous n’avez jamais installé de
 packages R auparavant.
 
-**En cas d’erreur, merci de vérifier que RTools est bien installé**
+**En cas d’erreur, merci de vérifier que RTools soit bien installé**
 
 Si l’installation s’est bien passée, alors la commande suivante devrait
 fonctionner :
@@ -158,19 +159,19 @@ Le package R IDGF est constitué de 4 modules interconnectés :
 
   - `radarIDGF()` : Module facultatif qui produit des diagrammes radar
     d’appui au diagnostic à partir des résultats de la fonction
-    précédente
+    précédente.
 
   - `exportIDGF()` : Exporte les résultats de l’IDGF (score des
     métriques individuelles, évaluation de l’état écologique) au format
     .csv et les diagrammes de diagnostic au format .png (si la fonction
-    de radar a été utilisée) dans le répertoire de travail.
+    de radar a été utilisée).
 
 ![](man/figures/README-pipeline.png)
 
 ## Données internes embarquées
 
-L’outil de calcul IDGF fait appel à différentes tables de références qui
-ont été constituées lors de la création de l’indice et qui sont stockées
+L’outil de calcul IDGF fait appel à différentes tables de référence qui
+ont été construites lors de la création de l’indice et qui sont stockées
 dans un fichier interne au package. Ces tables de référence sont au
 nombre de 3 :
 
@@ -181,15 +182,12 @@ nombre de 3 :
 2.  `table_metrics` : Table contenant une information binaire pour
     chaque taxon et donnant une indication sur si le taxon considéré est
     halin, indiciel, ou taxon d’alerte d’un ou plusieurs paramètres
-    d’anthropisation (et si oui, desquels). Les informations de cette
-    table sont utilisée pour définir le statut du taxon (indiciel, non
-    indiciel, halin ou inconnu) et est combinée aux listes floristiques
-    insérées dans l’algorithme par multiplication.
+    d’anthropisation (et si oui, desquels).
 
 3.  `table_ref` : Table contenant les valeurs de référence pour chaque
     paramètre *composite* d’anthropisation selon l’hydroécorégion
     considérée (1 pour la plaine littorale, 2 pour le bouclier
-    Guyanais)
+    Guyanais).
 
 # Préparation des données
 
@@ -202,7 +200,7 @@ scrupuleusement à cette configuration en 4 colonnes:
 
   - id\_releve
       - Description : Correspond à l’identifiant unique du relevé
-        diatomique.
+        diatomique
       - Format : Chaîne de caractères ou nombre entier
       - Exemple : “A” ou 10
   - cd\_taxon
@@ -222,20 +220,20 @@ scrupuleusement à cette configuration en 4 colonnes:
 Ce fichier peut être sauvegardé sous différents formats :
 
   - Fichier Microsoft Excel 2003-2007 : .xls
-  - Fichier Microsoft Excel plus récents : .xlsx
+  - Fichier Microsoft Excel plus récent : .xlsx
   - Fichier texte plat au format .csv : **Attention aux paramètres :
-    séparateurs en point-virgule et décimale en point**
+    séparateurs en point-virgule et décimales en point**
 
 # Utilisation de l’applicatif
 
 ## Via une interface interactive
 
 Afin de simplifier l’utilisation de cet applicatif, une version
-interactive a également été développée. Pour l’utiliser, il suffit
-d’exécuter cette commande :
+interactive est proposée à l’utilisateur. Il suffit d’exécuter cette
+commande :
 
 ``` r
-library(IDGF) # On vérifie que le package est bien chargé
+library(IDGF) # On vérifie que le package soit bien chargé
 runIDGFTool() # Va lancer un applicatif
 ```
 
@@ -273,7 +271,9 @@ dossier_sortie <- rstudioapi::selectDirectory()
 ## /!\ NOTE : ces fonctions ne marcheront que si vous exécutez ce code depuis Rstudio. Il existe des fonctions alternatives sans Rstudio mais qui ne fonctionnent que sous windows. Vous pouvez vous en servir en retirant le "#" devant chacune des lignes avant de les exécuter :
 # nom_fichier <- file.choose() 
 # dossier_sortie <- choose.dir()
- 
+  
+## ------------------------------------------------------------------
+
 ### A partir d'ici, vous pouvez lancer le code d'un bloc.
 
 # Import des données
@@ -326,6 +326,14 @@ En cas de problèmes rencontrés avec l’outil, contacter :
 
   - David Carayon <david.carayon@inrae.fr>
   - François Delmas <francois.delmas@inrae.fr>
+
+## Perspectives de développement
+
+Dans l’éventualité ou ces travaux seraient repris, il est envisagé
+d’approfondir la dimension interactive du diagnostic en proposant une
+sortie détaillée individuelle (pour chaque relevé), avec une restitution
+cartographique et une analyse plus approfondie de la communauté
+diatomique étudiée.
 
 # Références
 

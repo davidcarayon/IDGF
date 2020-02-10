@@ -59,7 +59,7 @@ Si vous découvrez R, alors nous vous conseillons la lecture du chapitre suivant
 
 Cet applicatif accompagné de sa notice utilisateur sont disponibles au téléchargement sur le site Hydrobio-DCE : [https://hydrobio-dce.inrae.fr/](https://hydrobio-dce.inrae.fr/).
 
-Dans l'archive (.zip) téléchargée depuis cet espace, se trouvent la présente notice, un fichier de projet Rstudio `.Rproj` ainsi qu'une archive au format `.tar.gz`. Cette archive est un package R contenant les fonctions nécessaires pour la réalisation de l'IDGF. Après avoir extrait cette archive sur votre ordinateur, vous pouvez ouvrir le fichier de projet `.Rproj`, ce qui ouvrira directement Rstudio correctement configuré (notamment en ce qui concerne les chemins d'accès).
+Dans l'archive (.zip) téléchargée depuis cet espace, se trouvent la présente notice, un fichier de projet Rstudio `Applicatif_IDGF_HydrobioDCE.Rproj` ainsi qu'une archive au format `.tar.gz`. Cette archive est un package R contenant les fonctions nécessaires pour la réalisation de l'IDGF. Après avoir extrait cette archive (**la .zip, et non la .targ.gz**) sur votre ordinateur, vous pouvez ouvrir le fichier de projet `Applicatif_IDGF_HydrobioDCE.Rproj`, ce qui ouvrira directement Rstudio correctement configuré (notamment en ce qui concerne les chemins d'accès).
 
 Pour installer le package IDGF ainsi que ses dépendences associées, vous pouvez exécuter dans la console :
 
@@ -69,7 +69,7 @@ remotes::install_local("IDGF_2.0.tar.gz")
 
 Ceci devrait installer le package ainsi que ses dépendances. Cette opération peut être chronophage si vous n'avez jamais installé de packages R auparavant.
 
-**En cas d'erreur, merci de vérifier que RTools est bien installé**
+**En cas d'erreur, merci de vérifier que RTools soit bien installé**
 
 Si l'installation s'est bien passée, alors la commande suivante devrait fonctionner :
 
@@ -105,9 +105,9 @@ Le package R IDGF est constitué de 4 modules interconnectés :
 
 - `computeIDGF()` : Calcule, à partir des données importées via la fonction précédente, les différentes métriques de l'IDGF en se basant sur des tableaux internes listant le statut de chaque taxon (alerte, halin, etc.) ainsi que les valeurs de référence pour chaque HER.
 
-- `radarIDGF()` : Module facultatif qui produit des diagrammes radar d'appui au diagnostic à partir des résultats de la fonction précédente
+- `radarIDGF()` : Module facultatif qui produit des diagrammes radar d'appui au diagnostic à partir des résultats de la fonction précédente.
 
-- `exportIDGF()` : Exporte les résultats de l'IDGF (score des métriques individuelles, évaluation de l'état écologique) au format .csv et les diagrammes de diagnostic au format .png (si la fonction de radar a été utilisée) dans le répertoire de travail.
+- `exportIDGF()` : Exporte les résultats de l'IDGF (score des métriques individuelles, évaluation de l'état écologique) au format .csv et les diagrammes de diagnostic au format .png (si la fonction de radar a été utilisée).
 
 
 ```{r pipeline, out.width = "100%", fig.align = "center", echo = FALSE}
@@ -117,13 +117,13 @@ knitr::include_graphics("../man/figures/README-pipeline.png")
 
 ## Données internes embarquées
 
-L'outil de calcul IDGF fait appel à différentes tables de références qui ont été constituées lors de la création de l'indice et qui sont stockées dans un fichier interne au package. Ces tables de référence sont au nombre de 3 :
+L'outil de calcul IDGF fait appel à différentes tables de référence qui ont été construites lors de la création de l'indice et qui sont stockées dans un fichier interne au package. Ces tables de référence sont au nombre de 3 :
 
 1. `transcode` : Table de transcodage permettant de faire correspondre un code taxon 4-lettres (type OMNIDIA) à son entité taxonomique qui a été considérée pour la construction de l'IDGF.
 
-2. `table_metrics` : Table contenant une information binaire pour chaque taxon et donnant une indication sur si le taxon considéré est halin, indiciel, ou taxon d'alerte d'un ou plusieurs paramètres d'anthropisation (et si oui, desquels). Les informations de cette table sont utilisée pour définir le statut du taxon (indiciel, non indiciel, halin ou inconnu) et est combinée aux listes floristiques insérées dans l'algorithme par multiplication.
+2. `table_metrics` : Table contenant une information binaire pour chaque taxon et donnant une indication sur si le taxon considéré est halin, indiciel, ou taxon d'alerte d'un ou plusieurs paramètres d'anthropisation (et si oui, desquels). 
 
-3. `table_ref` : Table contenant les valeurs de référence pour chaque paramètre *composite* d'anthropisation selon l'hydroécorégion considérée (1 pour la plaine littorale, 2 pour le bouclier Guyanais)
+3. `table_ref` : Table contenant les valeurs de référence pour chaque paramètre *composite* d'anthropisation selon l'hydroécorégion considérée (1 pour la plaine littorale, 2 pour le bouclier Guyanais).
 
 # Préparation des données
 
@@ -136,7 +136,7 @@ knitr::include_graphics("../man/figures/README-cap_office.png")
 ## Description des champs
 
 - id_releve 
-  - Description : Correspond à l'identifiant unique du relevé diatomique. 
+  - Description : Correspond à l'identifiant unique du relevé diatomique
   - Format : Chaîne de caractères ou nombre entier
   - Exemple : "A" ou 10
 
@@ -157,17 +157,17 @@ knitr::include_graphics("../man/figures/README-cap_office.png")
 Ce fichier peut être sauvegardé sous différents formats :
 
 - Fichier Microsoft Excel 2003-2007 : .xls
-- Fichier Microsoft Excel plus récents : .xlsx
-- Fichier texte plat au format .csv : **Attention aux paramètres : séparateurs en point-virgule et décimale en point**
+- Fichier Microsoft Excel plus récent : .xlsx
+- Fichier texte plat au format .csv : **Attention aux paramètres : séparateurs en point-virgule et décimales en point**
 
 # Utilisation de l'applicatif
 
 ## Via une interface interactive
 
-Afin de simplifier l'utilisation de cet applicatif, une version interactive a également été développée. Pour l'utiliser, il suffit d'exécuter cette commande :
+Afin de simplifier l'utilisation de cet applicatif, une version interactive est proposée à l'utilisateur. Il suffit d'exécuter cette commande :
 
 ```{r appplication, eval = FALSE}
-library(IDGF) # On vérifie que le package est bien chargé
+library(IDGF) # On vérifie que le package soit bien chargé
 runIDGFTool() # Va lancer un applicatif
 ```
 
@@ -199,6 +199,8 @@ dossier_sortie <- rstudioapi::selectDirectory()
 # nom_fichier <- file.choose() 
 # dossier_sortie <- choose.dir()
  
+## ------------------------------------------------------------------
+
 ### A partir d'ici, vous pouvez lancer le code d'un bloc.
 
 # Import des données
@@ -240,6 +242,10 @@ En cas de problèmes rencontrés avec l'outil, contacter :
 
 - David Carayon [david.carayon@inrae.fr](mailto:david.carayon@inrae.fr)
 - François Delmas [francois.delmas@inrae.fr](mailto:francois.delmas@inrae.fr)
+
+## Perspectives de développement
+
+Dans l'éventualité ou ces travaux seraient repris, il est envisagé d'approfondir la dimension interactive du diagnostic en proposant une sortie détaillée individuelle (pour chaque relevé), avec une restitution cartographique et une analyse plus approfondie de la communauté diatomique étudiée.
 
 # Références 
 
