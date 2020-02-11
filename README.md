@@ -95,16 +95,17 @@ Dans l’archive (.zip) téléchargée depuis cet espace, se trouvent la
 présente notice, un fichier de projet Rstudio
 `Applicatif_IDGF_HydrobioDCE.Rproj` ainsi qu’une archive au format
 `.tar.gz`. Cette archive est un package R contenant les fonctions
-nécessaires pour la réalisation de l’IDGF. Après avoir extrait cette
-archive (**la .zip, et non la .targ.gz**) sur votre ordinateur, vous
-pouvez ouvrir le fichier de projet `Applicatif_IDGF_HydrobioDCE.Rproj`,
-ce qui ouvrira directement Rstudio correctement configuré (notamment en
-ce qui concerne les chemins d’accès).
+nécessaires pour la réalisation de l’IDGF. Après extraction (**du .zip,
+et non du .targ.gz**) sur votre ordinateur, vous pouvez ouvrir le
+fichier de projet `Applicatif_IDGF_HydrobioDCE.Rproj`, ce qui ouvrira
+directement Rstudio correctement configuré.
 
 Pour installer le package IDGF ainsi que ses dépendences associées, vous
-pouvez exécuter dans la console :
+pouvez exécuter dans la console
+:
 
 ``` r
+if (!"remotes" %in% rownames(installed.packages())) {install.packages("remotes")}
 remotes::install_local("IDGF_2.0.tar.gz")
 ```
 
@@ -128,9 +129,11 @@ sur github :
 
 <https://github.com/davidcarayon/IDGF>
 
-Il est donc possible d’installer le package par la fonction suivante :
+Il est donc possible d’installer le package par la fonction suivante
+:
 
 ``` r
+if (!"remotes" %in% rownames(installed.packages())) {install.packages("remotes")}
 remotes::install_github("davidcarayon/IDGF")
 ```
 
