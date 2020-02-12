@@ -123,11 +123,26 @@ Le package IDGF est constitué de 4 modules interconnectés :
 
 L'outil de calcul IDGF fait appel à différentes tables de référence qui ont été construites lors de la création de l'indice et qui sont stockées dans un fichier interne au package. Ces tables de référence sont au nombre de 3 :
 
-1. `transcode` : Table de transcodage permettant de faire correspondre un code taxon 4-lettres (type OMNIDIA) à son entité taxonomique qui a été considérée pour la construction de l'IDGF. Cette table recence les 2022 codes taxon possibles identifiés jusqu'à maintenant en Guyane et va donner pour chacun de ces codes sa correspondance à un code accepté pour l'IDGF (notamment dans le cas de synonymes ou d'évolution des connaissances taxonomiques).
+1. `transcode` : Table de transcodage permettant de faire correspondre un code taxon 4-lettres (type OMNIDIA) à son entité taxonomique qui a été considérée pour la construction de l'IDGF. Cette table recence les 2022 codes taxon possibles identifiés jusqu'à maintenant en Guyane et va donner pour chacun de ces codes sa correspondance à un code accepté pour l'IDGF (notamment dans le cas de synonymes ou d'évolution des connaissances taxonomiques). Dans l'extrait ci-dessous, la colonne 'v1' correspond au code utilisé par l'IDGF pour sa première version finalée tandis que la colonne v2 est en cours de construction pour une future version de l'indice.
 
-2. `table_metrics` : Table contenant une information binaire pour chaque taxon et donnant une indication sur si le taxon considéré est halin, indiciel (utilisé pour l'indice), ou taxon d'alerte d'un ou plusieurs paramètres d'anthropisation (et si oui, desquels). 
+```{r echo = FALSE}
+load("R/sysdata.rda")
 
-3. `table_ref` : Table contenant les valeurs de référence pour chaque paramètre *composite* d'anthropisation selon l'hydroécorégion considérée (1 pour la plaine littorale, 2 pour le bouclier Guyanais).
+gt::gt(head(transcode))
+```
+
+2. `table_metrics` : Table contenant une information binaire pour chaque taxon et donnant une indication sur si le taxon considéré est halin, indiciel (utilisé pour l'indice), ou taxon d'alerte d'un ou plusieurs paramètres d'anthropisation (et si oui, desquels). Ci-dessous un extrait :
+
+```{r echo = FALSE}
+gt::gt(head(table_metrics) )
+```
+
+3. `table_ref` : Table contenant les valeurs de référence pour chaque paramètre *composite* d'anthropisation selon l'hydroécorégion considérée (1 pour la plaine littorale, 2 pour le bouclier Guyanais). Ci-dessous un extrait :
+
+```{r echo = FALSE}
+names(table_ref) <- c("NUM_HER","Param","Ref_value")
+gt::gt(head(table_ref))
+```
 
 # Préparation des données
 
