@@ -27,7 +27,8 @@ ui <- dashboardPage(skin = "green",
                                      fileInput("files", "Charger le fichier de données (format excel)", accept = c(".xls",".xlsx",".csv")),
                                      sidebarMenu(id = "tabs",
                                                  menuItem("Résultats bruts", tabName = "table", icon = icon("list")),
-                                                 menuItem("Graphiques de diagnostic", tabName = "diagnostic", icon = icon("tachometer"))))),
+                                                 menuItem("Graphiques de diagnostic", tabName = "diagnostic", icon = icon("tachometer"))),
+                                     br(),br(),p("Auteur : David CARAYON (INRAE)\ndavid.carayon@inrae.fr", align = "center"))),
 
                     ## Le corps de l'application
                     dashboardBody(

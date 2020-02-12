@@ -148,7 +148,7 @@ library(IDGF)
 
 ## Modules et fonctionnalités
 
-Le package R IDGF est constitué de 4 modules interconnectés :
+Le package IDGF est constitué de 4 modules interconnectés :
 
   - `importIDGF()` : Importe les données dans R à partir d’un fichier de
     données (type excel), puis applique quelques transformations telles
@@ -180,12 +180,16 @@ nombre de 3 :
 
 1.  `transcode` : Table de transcodage permettant de faire correspondre
     un code taxon 4-lettres (type OMNIDIA) à son entité taxonomique qui
-    a été considérée pour la construction de l’IDGF.
+    a été considérée pour la construction de l’IDGF. Cette table recence
+    les 2022 codes taxon possibles identifiés jusqu’à maintenant en
+    Guyane et va donner pour chacun de ces codes sa correspondance à un
+    code accepté pour l’IDGF (notamment dans le cas de synonymes ou
+    d’évolution des connaissances taxonomiques).
 
 2.  `table_metrics` : Table contenant une information binaire pour
     chaque taxon et donnant une indication sur si le taxon considéré est
-    halin, indiciel, ou taxon d’alerte d’un ou plusieurs paramètres
-    d’anthropisation (et si oui, desquels).
+    halin, indiciel (utilisé pour l’indice), ou taxon d’alerte d’un ou
+    plusieurs paramètres d’anthropisation (et si oui, desquels).
 
 3.  `table_ref` : Table contenant les valeurs de référence pour chaque
     paramètre *composite* d’anthropisation selon l’hydroécorégion
