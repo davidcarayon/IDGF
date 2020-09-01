@@ -46,11 +46,11 @@ référence régionale) et donne des résultats pertinents, selon l’avis
 des experts locaux, et cohérents par rapport au contexte naturel et aux
 activités anthropiques rencontrés en Guyane.
 
-La présente notice d’utilisation accompagne le package R `IDGF` qui a
-été développé lors de ce travail et permet de l’utiliser correctement
-pour calculer une note d’IDGF, la classe de qualité écologique qui en
-découle ainsi que de produire un diagramme d’appui au diagnostic de
-l’état écologique des masses d’eau continentales Guyanaises.
+Le présent dépôt contient le package R `IDGF` qui a été développé lors
+de ce travail et permet de l’utiliser correctement pour calculer une
+note d’IDGF, la classe de qualité écologique qui en découle ainsi que de
+produire un diagramme d’appui au diagnostic de l’état écologique des
+masses d’eau continentales Guyanaises.
 
 # Installation
 
@@ -222,12 +222,6 @@ Enfin, il est possible de télécharger l’ensemble de ces résultats sous
 forme d’archive compressée.
 
 ## Via lignes de code
-
-Le script R “script\_calcul\_IDGF.R” présent dans l’archive
-téléchargeable depuis hydrobioDCE (cf. 3.1) contient l’ensemble des
-lignes de commandes à éxecuter pour réaliser l’IDGF. Si vous ne disposez
-pas de ce fichier, les lignes suivantes vous permettrons d’utiliser
-l’applicatif.
 
 ``` r
 library(IDGF) # Veiller à exécuter cette commande au moins une fois avant de lancer le script

@@ -44,7 +44,7 @@ Cependant, la conception d’un indice diatomique spécifique à la Guyane a con
 
 En tirant les enseignements adéquats des précédents indices diatomiques élaborés dans d’autres DOM-COM, une méthodologie adaptée au contexte Guyanais a été développée en se basant (i) sur une réduction du nombre de taxons pris en compte dans les assemblages et (ii) sur la recherche de taxons d’alerte dans une optique multimétrique. Cette approche a permis la conception d’un indice qui présente une évaluation écologique compatible avec les préconisations de la DCE (notion d’écart à une référence régionale) et donne des résultats pertinents, selon l’avis des experts locaux, et cohérents par rapport au contexte naturel et aux activités anthropiques rencontrés en Guyane. 
 
-La présente notice d'utilisation accompagne le package R `IDGF` qui a été développé lors de ce travail et permet de l'utiliser correctement pour calculer une note d'IDGF, la classe de qualité écologique qui en découle ainsi que de produire un diagramme d'appui au diagnostic de l'état écologique des masses d'eau continentales Guyanaises.
+Le présent dépôt contient le package R `IDGF` qui a été développé lors de ce travail et permet de l'utiliser correctement pour calculer une note d'IDGF, la classe de qualité écologique qui en découle ainsi que de produire un diagramme d'appui au diagnostic de l'état écologique des masses d'eau continentales Guyanaises.
 
 # Installation
 
@@ -155,8 +155,6 @@ A partir de cette interface, il suffit de charger les données à l'aide du bout
 Enfin, il est possible de télécharger l'ensemble de ces résultats sous forme d'archive compressée.
 
 ## Via lignes de code
-
-Le script R "script_calcul_IDGF.R" présent dans l'archive téléchargeable depuis hydrobioDCE (cf. 3.1) contient l'ensemble des lignes de commandes à éxecuter pour réaliser l'IDGF. Si vous ne disposez pas de ce fichier, les lignes suivantes vous permettrons d'utiliser l'applicatif.
 
 ```{r calcul IDGF, eval = FALSE}
 library(IDGF) # Veiller à exécuter cette commande au moins une fois avant de lancer le script
