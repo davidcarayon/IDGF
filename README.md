@@ -5,9 +5,10 @@
 
 <!-- badges: start -->
 
-[![Lifecycle:stable](https://img.shields.io/badge/lifecycle-stable-blue.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![Lifecycle:stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![packageversion](https://img.shields.io/badge/Package%20version-2.0-orange.svg?style=flat-square)](commits/master)
 [![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![DOI](https://zenodo.org/badge/191774507.svg)](https://zenodo.org/badge/latestdoi/191774507)
 <!-- badges: end -->
 
 # Préambule
