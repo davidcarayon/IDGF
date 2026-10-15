@@ -2,12 +2,16 @@
 % Please edit documentation in R/runIDGFTool.R
 \name{runIDGFTool}
 \alias{runIDGFTool}
-\title{Applicatif simplifié IDGF}
+\title{Applicatif simplifié IDGF (ancien nom)}
 \usage{
-runIDGFTool()
+runIDGFTool(...)
+}
+\arguments{
+\item{...}{Arguments transmis à [run_app()]}
 }
 \description{
-Cette fonction exécute un applicatif développé via le package Rshiny pour proposer une interface graphique.
+Conservée pour compatibilité avec les versions 2.x du package : lance
+désormais l'application golem via [run_app()].
 }
 \examples{
 library(IDGF)

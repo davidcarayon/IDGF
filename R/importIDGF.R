@@ -14,7 +14,7 @@
 #' names(IDGFdata)
 importIDGF <- function(input){
 
-  filetype <- tools::file_ext(input)
+  filetype <- tolower(tools::file_ext(input))
 
   if(filetype %in% c("xls","xlsx")) {
 
@@ -22,7 +22,9 @@ importIDGF <- function(input){
 
   } else if (filetype == "csv") {
 
-    df <- suppressWarnings(readr::read_csv2(input) %>% dplyr::select(-X1))
+    # Une éventuelle colonne de numéros de ligne (export R/Excel) est ignorée
+    df <- suppressWarnings(readr::read_csv2(input, show_col_types = FALSE)) %>%
+      dplyr::select(-dplyr::any_of(c("X1", "...1")))
 
   } else {stop("Merci d'utiliser un fichier d'entrée au format .xls, .xlsx ou .csv")}
 
@@ -42,30 +44,18 @@ importIDGF <- function(input){
 
   taxons_missing<- subset(df, !(cd_taxon %in% table_metrics$cd_taxon)) %>%
     dplyr::group_by(sample) %>%
-    dplyr::summarise(Taxons_inconnus = paste(cd_taxon,collapse = ","))
+    dplyr::summarise(Taxons_inconnus = paste(cd_taxon,collapse = ","), .groups = "drop")
 
   taxons_halins <- subset(df, cd_taxon %in% subset(table_metrics,halin == 1)$cd_taxon) %>%
     dplyr::group_by(sample) %>%
-    dplyr::summarise(Taxons_halins = paste(cd_taxon,collapse = ","))
-
-
-  # Ajout des taxons manquants
-  if(nrow(taxons_missing>0)) {
-
-    newlines <- suppressWarnings(taxons_missing %>%
-                                   dplyr::select(cd_taxon = Taxons_inconnus) %>%
-                                   dplyr::bind_rows(table_metrics) %>%
-                                   dplyr::mutate_at(dplyr::vars(indiciel:NH4),
-                                                    dplyr::funs(ifelse(is.na(.), 0, .))))
-  }
+    dplyr::summarise(Taxons_halins = paste(cd_taxon,collapse = ","), .groups = "drop")
 
 
   df_standard <- df %>%
     dplyr::left_join(transcode, by = c("cd_taxon"="code")) %>%
     dplyr::select(-cd_taxon) %>%
     dplyr::group_by(sample,IDGF_v1) %>%
-    dplyr::summarise(abondance = sum(abondance, na.rm=TRUE)) %>%
-    dplyr::ungroup() %>%
+    dplyr::summarise(abondance = sum(abondance, na.rm=TRUE), .groups = "drop") %>%
     dplyr::group_by(sample) %>%
     dplyr::mutate(n_valves = sum(abondance)) %>%
     dplyr::ungroup() %>%

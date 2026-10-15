@@ -1,0 +1,1345 @@
+// ═══════════════════════════════════════════════════════════════════════════
+//  IDGF – thème « Guyane française »
+//  Canopée amazonienne, fleuves, morpho bleu irisé, étoile et couleurs du drapeau.
+//  Compilé par bslib (bs_add_rules) : les variables Bootstrap sont disponibles.
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ── Palette ─────────────────────────────────────────────────────────────────
+$canopee:   #0d3b2e;
+$canopee-2: #0a2a21;
+$feuille:   #1f6f4a;
+$lime:      #a8c523;
+$marine:    #1d4a8c;
+$morpho:    #1fa2ff;
+$morpho-2:  #3a47d5;
+$soleil:    #f6c445;
+$etoile:    #d62828;
+$laterite:  #b5562c;
+$sable:     #faf6ec;
+$encre:     #14302a;
+
+$ombre-douce: 0 10px 30px -12px rgba($canopee, .25), 0 2px 6px rgba($canopee, .06);
+$ombre-forte: 0 24px 60px -18px rgba($canopee, .45);
+$degrade-irise: linear-gradient(100deg, #7ee8fa 0%, $morpho 30%, $morpho-2 55%, $lime 80%, #7ee8fa 100%);
+$degrade-principal: linear-gradient(135deg, $lime 0%, $feuille 100%);
+$transition: cubic-bezier(.2, .8, .2, 1);
+
+// Propriétés animables (jauge, échelles)
+@property --p { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --angle { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
+// ── Base ────────────────────────────────────────────────────────────────────
+html { scroll-behavior: smooth; }
+
+body {
+  background:
+    radial-gradient(1200px 600px at 110% -10%, rgba($lime, .10), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba($morpho, .07), transparent 60%),
+    $sable;
+  color: $encre;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5 { letter-spacing: -.01em; }
+
+::selection { background: rgba($lime, .45); }
+
+.container, .container-xl { padding-left: 16px; padding-right: 16px; }
+
+// Pages en pleine largeur : le conteneur des onglets de page_navbar n'a ni marge ni retrait
+.container-fluid:has(> .tab-content) {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none;
+}
+
+// ── Barre de navigation ────────────────────────────────────────────────────
+.navbar {
+  position: sticky !important;
+  top: 0;
+  z-index: 1030;
+  margin-bottom: 0 !important;
+  background: rgba($canopee-2, .94) !important;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, .45);
+
+  .navbar-brand { padding: 0; }
+
+  .nav-link {
+    position: relative;
+    color: rgba(255, 255, 255, .78) !important;
+    font-weight: 500;
+    transition: color .25s;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: .6rem; right: .6rem; bottom: .25rem;
+      height: 2px;
+      border-radius: 2px;
+      background: $degrade-irise;
+      background-size: 200% 100%;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .35s $transition;
+    }
+    &:hover { color: #fff !important; }
+    &:hover::after, &.active::after { transform: scaleX(1); }
+    &.active { color: #fff !important; }
+  }
+}
+
+.idgf-marque {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+
+  img {
+    height: 38px;
+    padding: 3px 8px;
+    background: #fff;
+    border-radius: .7rem;
+    box-shadow: 0 0 0 2px rgba($lime, .5), 0 0 18px rgba($lime, .35);
+  }
+  .idgf-marque-texte {
+    font-family: Fraunces, serif;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: .04em;
+  }
+}
+
+.idgf-btn-nav {
+  color: $canopee !important;
+  font-weight: 600;
+  background: $degrade-principal;
+  border: 0;
+  border-radius: 999px;
+  padding: .35rem 1rem;
+  box-shadow: 0 0 0 0 rgba($lime, .6);
+  animation: pulsation 2.6s infinite;
+  &:hover { filter: brightness(1.08); }
+}
+
+// ── Boutons ────────────────────────────────────────────────────────────────
+%btn-base {
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px;
+  font-weight: 600;
+  padding: .7rem 1.5rem;
+  transition: transform .25s $transition, box-shadow .25s, filter .25s;
+  &:hover { transform: translateY(-2px); }
+  &:active { transform: translateY(0); }
+}
+
+.idgf-btn-principal {
+  @extend %btn-base;
+  color: #fff !important;
+  background: $degrade-principal;
+  border: 0;
+  box-shadow: 0 10px 30px -8px rgba($feuille, .7);
+
+  // Reflet qui balaie le bouton au survol
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: -60%;
+    width: 40%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .55), transparent);
+    transform: skewX(-20deg);
+    transition: left .7s $transition;
+  }
+  &:hover::before { left: 130%; }
+  &:hover { box-shadow: 0 16px 40px -10px rgba($lime, .8); }
+}
+
+.idgf-btn-verre {
+  @extend %btn-base;
+  color: #fff !important;
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .35);
+  backdrop-filter: blur(8px);
+  &:hover { background: rgba(255, 255, 255, .2); }
+}
+
+.idgf-btn-verre-sombre {
+  @extend %btn-base;
+  color: $canopee !important;
+  background: rgba($canopee, .04);
+  border: 1.5px solid rgba($canopee, .25);
+  &:hover { background: rgba($lime, .15); border-color: $feuille; }
+}
+
+// ── Bandeau d'accueil ──────────────────────────────────────────────────────
+.idgf-hero, .idgf-bandeau {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  color: #fff;
+  background: $canopee-2;
+}
+
+.idgf-hero {
+  min-height: calc(100vh - 60px);
+  min-height: calc(100svh - 60px);
+  display: flex;
+  align-items: center;
+  padding: 6rem 0 9rem;
+}
+
+.idgf-hero-ciel {
+  position: absolute;
+  inset: -20%;
+  z-index: -3;
+  background:
+    radial-gradient(40% 35% at 70% 30%, rgba($soleil, .35), transparent 70%),
+    radial-gradient(50% 50% at 20% 20%, rgba($morpho, .25), transparent 70%),
+    linear-gradient(170deg, #06251c 0%, #0f4a37 45%, #1f6f4a 75%, #0d3b2e 100%);
+  background-size: 140% 140%;
+  animation: ciel 18s ease-in-out infinite alternate;
+}
+
+.idgf-hero-soleil {
+  position: absolute;
+  z-index: -2;
+  top: 12%; right: 12%;
+  width: unquote("min(34vw, 420px)");
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba($soleil, .9) 0%, rgba($soleil, .35) 35%, transparent 70%);
+  filter: blur(6px);
+  animation: respiration 7s ease-in-out infinite;
+  transform: translate(calc(var(--mx, 0) * -20px), calc(var(--my, 0) * -20px));
+}
+
+// Canopée en trois plans, avec parallaxe pilotée par la souris (--mx, --my)
+.idgf-canopee {
+  position: absolute;
+  left: -2%; right: -2%; bottom: 40px;
+  width: 104%;
+  height: 40%;
+  z-index: -1;
+  pointer-events: none;
+
+  .plan { transition: transform .6s ease-out; }
+  .plan-3 { fill: #1a5c43; opacity: .55; transform: translateX(calc(var(--mx, 0) * 8px)); }
+  .plan-2 { fill: #134a36; opacity: .8;  transform: translateX(calc(var(--mx, 0) * 16px)); }
+  .plan-1 { fill: #0a2e23;               transform: translateX(calc(var(--mx, 0) * 28px)); }
+}
+
+.idgf-hero-contenu {
+  position: relative;
+  z-index: 2;
+  max-width: 960px;
+  text-align: center;
+
+  h1 {
+    font-size: clamp(2.4rem, 6.2vw, 5.4rem);
+    font-weight: 800;
+    line-height: 1.02;
+    margin: 1.2rem 0 1.4rem;
+    text-shadow: 0 6px 40px rgba(0, 0, 0, .35);
+  }
+}
+
+.irise {
+  background: $degrade-irise;
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: irisation 6s linear infinite;
+  font-style: italic;
+}
+
+.idgf-surtitre {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: $lime;
+
+  .idgf-hero & {
+    padding: .45rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .18);
+    backdrop-filter: blur(6px);
+  }
+}
+
+.idgf-etoile-mini {
+  width: 1.05em;
+  height: 1.05em;
+  polygon { fill: $etoile; }
+  animation: tourne 12s linear infinite;
+}
+
+.idgf-hero-intro {
+  max-width: 720px;
+  margin: 0 auto 2.2rem;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  color: rgba(255, 255, 255, .85);
+}
+
+.idgf-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+// Indicateur de défilement
+.idgf-defiler {
+  position: absolute;
+  left: 50%;
+  bottom: 110px;
+  width: 26px; height: 42px;
+  margin-left: -13px;
+  border: 2px solid rgba(255, 255, 255, .5);
+  border-radius: 14px;
+  z-index: 3;
+  span {
+    position: absolute;
+    left: 50%; top: 8px;
+    width: 4px; height: 8px;
+    margin-left: -2px;
+    border-radius: 2px;
+    background: #fff;
+    animation: molette 1.8s infinite;
+  }
+}
+
+// ── Fleuve (vagues) ────────────────────────────────────────────────────────
+.idgf-fleuve, .idgf-pied-vague {
+  position: absolute;
+  left: 0; bottom: -1px;
+  width: 100%;
+  height: 120px;
+  z-index: 1;
+  pointer-events: none;
+
+  .vague { animation: courant linear infinite; }
+  .vague-1 { fill: rgba(#7a5230, .55); animation-duration: 18s; }
+  .vague-2 { fill: rgba($marine, .45); animation-duration: 12s; animation-direction: reverse; transform: translateY(14px); }
+  .vague-3 { fill: $sable; animation-duration: 24s; transform: translateY(34px); }
+}
+
+// ── Morpho ─────────────────────────────────────────────────────────────────
+.idgf-morpho {
+  position: absolute;
+  top: 0; left: 0;
+  width: 70px;
+  z-index: 1;
+  offset-path: path("M -120 420 C 200 120, 420 520, 700 260 S 1150 60, 1400 300 S 1700 520, 2000 160");
+  offset-rotate: auto 90deg;
+  animation: vol 26s linear infinite;
+  filter: drop-shadow(0 0 12px rgba($morpho, .7));
+
+  svg { width: 100%; overflow: visible; }
+  .aile {
+    transform-box: view-box;
+    transform-origin: 0 0;
+    animation: battement .32s ease-in-out infinite alternate;
+  }
+}
+
+// ── Diatomées ──────────────────────────────────────────────────────────────
+.idgf-diatomee {
+  overflow: visible;
+  .valve  { fill: rgba($lime, .12); stroke: rgba(255, 255, 255, .55); stroke-width: 1.6; }
+  .stries { stroke: rgba(255, 255, 255, .45); stroke-width: .9; stroke-linecap: round; }
+  .raphe  { stroke: rgba(255, 255, 255, .7); stroke-width: 1.1; }
+  .nodule, .anneau { fill: rgba(255, 255, 255, .18); stroke: rgba(255, 255, 255, .6); stroke-width: 1; }
+}
+
+// Version claire (sur fond sable)
+.idgf-vitrine, .idgf-vide-visuel {
+  .idgf-diatomee {
+    .valve  { fill: rgba($lime, .18); stroke: $feuille; }
+    .stries { stroke: rgba($feuille, .55); }
+    .raphe  { stroke: $canopee; }
+    .nodule, .anneau { fill: rgba($morpho, .2); stroke: $marine; }
+  }
+}
+
+.idgf-diatomees {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+
+  .particule {
+    position: absolute;
+    bottom: -120px;
+    opacity: 0;
+    animation: derive var(--duree, 20s) linear var(--delai, 0s) infinite;
+    svg { width: 100%; height: auto; display: block; animation: rotation var(--rot, 14s) linear infinite; }
+  }
+}
+
+.flotte { animation: flottement 6s ease-in-out infinite; }
+.flotte-2 { animation-delay: -2s; animation-duration: 7s; }
+.flotte-3 { animation-delay: -4s; animation-duration: 8s; }
+
+// ── Bandeau des pages intérieures ──────────────────────────────────────────
+.idgf-bandeau {
+  padding: 5rem 0 8rem;
+  text-align: center;
+  background:
+    radial-gradient(60% 80% at 80% 0%, rgba($morpho, .25), transparent 70%),
+    radial-gradient(50% 60% at 10% 10%, rgba($lime, .2), transparent 70%),
+    linear-gradient(170deg, #06251c, #134a36 70%, $canopee);
+
+  .idgf-canopee { height: 60%; bottom: 30px; opacity: .8; }
+
+  h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800; }
+  p { color: rgba(255, 255, 255, .8); font-size: 1.15rem; margin: 0; }
+}
+
+.idgf-bandeau-contenu { position: relative; z-index: 2; }
+
+.idgf-bandeau-icone {
+  display: inline-grid;
+  place-items: center;
+  width: 64px; height: 64px;
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  border-radius: 20px;
+  color: $canopee;
+  background: $degrade-principal;
+  box-shadow: 0 0 40px rgba($lime, .55);
+  animation: respiration 5s ease-in-out infinite;
+}
+
+// ── Sections ───────────────────────────────────────────────────────────────
+.idgf-section {
+  position: relative;
+  padding: 5.5rem 0;
+}
+
+.idgf-section-teinte {
+  background: linear-gradient(180deg, rgba($lime, .09), rgba($morpho, .05));
+}
+
+.idgf-section-sombre {
+  overflow: hidden;
+  color: #fff;
+  background:
+    radial-gradient(60% 80% at 100% 0%, rgba($morpho, .22), transparent 60%),
+    radial-gradient(60% 80% at 0% 100%, rgba($lime, .16), transparent 60%),
+    linear-gradient(160deg, $canopee-2, $canopee 60%, #0f4a37);
+  > .container { position: relative; z-index: 1; }
+}
+
+.idgf-titre-section {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 3rem;
+
+  h2 {
+    font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+    font-weight: 800;
+    &::after {
+      content: "";
+      display: block;
+      width: 72px; height: 4px;
+      margin: .9rem auto 0;
+      border-radius: 4px;
+      background: $degrade-irise;
+      background-size: 200% 100%;
+      animation: irisation 5s linear infinite;
+    }
+  }
+  p { color: rgba($encre, .7); font-size: 1.1rem; }
+  &.clair p { color: rgba(255, 255, 255, .75); }
+}
+
+.idgf-texte-large {
+  font-size: 1.08rem;
+  line-height: 1.75;
+  h2 { font-weight: 800; margin-bottom: 1.2rem; }
+}
+
+.idgf-grille-2, .idgf-grille-3 {
+  display: grid;
+  gap: 1.6rem;
+}
+.idgf-grille-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.idgf-grille-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+// ── Cartes ─────────────────────────────────────────────────────────────────
+.idgf-carte {
+  position: relative;
+  padding: 1.8rem;
+  border-radius: 1.4rem;
+  background: rgba(255, 255, 255, .78);
+  border: 1px solid rgba($canopee, .08);
+  box-shadow: $ombre-douce;
+  backdrop-filter: blur(6px);
+  transition: transform .35s $transition, box-shadow .35s;
+
+  h4 { font-weight: 700; margin: .8rem 0 .6rem; }
+  p:last-child { margin-bottom: 0; }
+}
+
+// Halo lumineux qui suit la souris (--x, --y posées par idgf.js)
+.carte-lumiere {
+  overflow: hidden;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(420px circle at var(--x, 50%) var(--y, 50%), rgba($lime, .18), transparent 45%);
+    opacity: 0;
+    transition: opacity .35s;
+    pointer-events: none;
+  }
+  &:hover::before { opacity: 1; }
+  &:hover { transform: translateY(-6px); box-shadow: $ombre-forte; }
+}
+
+.idgf-carte-icone {
+  display: inline-grid;
+  place-items: center;
+  width: 52px; height: 52px;
+  font-size: 1.3rem;
+  border-radius: 16px;
+  color: #fff;
+  background: linear-gradient(135deg, $feuille, $canopee);
+  box-shadow: 0 10px 20px -8px rgba($feuille, .8);
+}
+
+.idgf-etape {
+  padding-top: 2.4rem;
+  .idgf-etape-numero {
+    position: absolute;
+    top: -.4rem; right: 1.2rem;
+    font-family: Fraunces, serif;
+    font-size: 6rem;
+    font-weight: 800;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba($feuille, .22);
+  }
+}
+
+// ── Chiffres clés ──────────────────────────────────────────────────────────
+.idgf-chiffres {
+  position: relative;
+  z-index: 3;
+  margin-top: -2.5rem;
+  padding-bottom: 1rem;
+}
+
+.idgf-grille-chiffres {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.idgf-chiffre {
+  text-align: center;
+  padding: 1.4rem 1rem;
+  border-radius: 1.2rem;
+  background: rgba(255, 255, 255, .85);
+  border: 1px solid rgba($canopee, .07);
+  box-shadow: $ombre-douce;
+  backdrop-filter: blur(8px);
+
+  .idgf-chiffre-icone {
+    font-size: 1.2rem;
+    color: $feuille;
+    margin-bottom: .2rem;
+  }
+  .idgf-chiffre-valeur {
+    font-family: Fraunces, serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.1;
+    background: linear-gradient(120deg, $canopee, $feuille 50%, $marine);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .idgf-chiffre-libelle { font-size: .9rem; color: rgba($encre, .7); }
+}
+
+// ── Encart publication ─────────────────────────────────────────────────────
+.idgf-publi {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  align-items: start;
+  padding: 2.4rem;
+  border-radius: 1.6rem;
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid rgba(255, 255, 255, .15);
+  backdrop-filter: blur(10px);
+
+  h3 { font-weight: 700; font-size: clamp(1.3rem, 2.4vw, 1.9rem); margin: .6rem 0 .8rem; }
+  p { color: rgba(255, 255, 255, .8); }
+  &.carte-lumiere:hover { transform: none; }
+}
+
+.idgf-publi-icone {
+  display: grid;
+  place-items: center;
+  width: 84px; height: 84px;
+  font-size: 2rem;
+  border-radius: 24px;
+  color: $canopee;
+  background: $degrade-irise;
+  background-size: 200% 100%;
+  animation: irisation 6s linear infinite;
+  box-shadow: 0 0 50px rgba($morpho, .45);
+}
+
+// ── Méthode ────────────────────────────────────────────────────────────────
+.idgf-vitrine {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  min-height: 300px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba($lime, .3), rgba($morpho, .1) 55%, transparent 70%);
+    filter: blur(10px);
+  }
+  .idgf-diatomee { position: relative; }
+  .pennee { height: 240px; }
+  .centrique { width: 150px; }
+}
+
+.idgf-frise {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto 3rem;
+  padding-left: 1.2rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: calc(1.2rem + 23px);
+    top: 10px; bottom: 10px;
+    width: 3px;
+    border-radius: 3px;
+    background: linear-gradient(180deg, $lime, $feuille, $marine, $morpho);
+  }
+}
+
+.idgf-frise-etape {
+  position: relative;
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 1.4rem;
+  margin-bottom: 1.6rem;
+}
+
+.idgf-frise-point {
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  font-family: Fraunces, serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: #fff;
+  background: linear-gradient(135deg, $feuille, $marine);
+  box-shadow: 0 0 0 6px $sable, 0 0 0 7px rgba($feuille, .3);
+}
+
+.idgf-frise-contenu {
+  padding: 1.2rem 1.5rem;
+  border-radius: 1.2rem;
+  background: #fff;
+  box-shadow: $ombre-douce;
+  h4 { font-weight: 700; margin-bottom: .4rem; }
+}
+
+.idgf-formule {
+  margin: .9rem 0;
+  padding: .9rem 1.2rem;
+  border-radius: .9rem;
+  font-family: Fraunces, serif;
+  font-size: 1.15rem;
+  font-style: italic;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(135deg, $canopee, #134a36);
+  border-left: 4px solid $lime;
+  overflow-x: auto;
+  sub { font-size: .65em; }
+}
+
+.idgf-pipeline {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.2rem;
+  border-radius: 1.2rem;
+  background: #fff;
+  box-shadow: $ombre-douce;
+  img { width: 100%; height: auto; }
+}
+
+.idgf-grille-metriques {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.2rem;
+}
+
+.idgf-metrique {
+  position: relative;
+  padding: 1.5rem;
+  border-radius: 1.2rem;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .12);
+  backdrop-filter: blur(8px);
+  transition: transform .35s $transition, background .35s;
+  &:hover { transform: translateY(-6px); background: rgba(255, 255, 255, .1); }
+
+  h5 { font-weight: 700; margin: 1rem 0 .4rem; }
+  p { font-size: .93rem; color: rgba(255, 255, 255, .75); }
+  .idgf-carte-icone { background: $degrade-principal; color: $canopee; }
+}
+
+.idgf-metrique-tete { display: flex; justify-content: space-between; align-items: center; }
+
+.idgf-metrique-code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: .85rem;
+  font-weight: 600;
+  padding: .25rem .7rem;
+  border-radius: 999px;
+  color: $lime;
+  border: 1px solid rgba($lime, .5);
+}
+
+.idgf-metrique-ref {
+  display: flex;
+  gap: 1rem;
+  padding-top: .8rem;
+  border-top: 1px dashed rgba(255, 255, 255, .2);
+  span { display: flex; flex-direction: column; font-family: "JetBrains Mono", monospace; }
+  small { font-family: Outfit, sans-serif; font-size: .72rem; color: rgba(255, 255, 255, .55); }
+}
+
+.idgf-her {
+  overflow: hidden;
+  .idgf-her-num {
+    display: inline-block;
+    padding: .3rem .9rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: .8rem;
+    letter-spacing: .1em;
+    color: #fff;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    right: -40px; bottom: -40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    opacity: .15;
+  }
+  &.her-1 { .idgf-her-num { background: linear-gradient(135deg, $laterite, $soleil); } &::after { background: $soleil; } }
+  &.her-2 { .idgf-her-num { background: linear-gradient(135deg, $canopee, $feuille); } &::after { background: $feuille; } }
+}
+
+// Échelle des classes d'état
+.idgf-echelle { position: relative; padding-bottom: 2rem; }
+
+.idgf-echelle-barre {
+  display: flex;
+  height: 64px;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: $ombre-douce;
+}
+
+.idgf-echelle-segment {
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: .95rem;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .45);
+  background: var(--c);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform .6s $transition calc(var(--i) * 120ms);
+  .visible & { transform: scaleY(1); }
+  span { white-space: nowrap; padding: 0 .3rem; }
+}
+
+.idgf-echelle-bornes {
+  position: relative;
+  height: 1.5rem;
+  span {
+    position: absolute;
+    top: .4rem;
+    transform: translateX(-50%);
+    font-family: "JetBrains Mono", monospace;
+    font-size: .8rem;
+    color: rgba($encre, .6);
+  }
+  span:first-child { transform: none; }
+  span:last-child { transform: translateX(-100%); }
+}
+
+.idgf-fiabilite {
+  text-align: center;
+  h5 { font-weight: 700; margin-top: 1rem; }
+  .idgf-fiabilite-seuil { font-family: Fraunces, serif; font-size: 2rem; font-weight: 800; }
+  &.satisfaisante .idgf-carte-icone { background: linear-gradient(135deg, #00b050, $feuille); }
+  &.reduite .idgf-carte-icone { background: linear-gradient(135deg, $soleil, #e08a00); }
+  &.nonvalide .idgf-carte-icone { background: linear-gradient(135deg, #ff6b6b, $etoile); }
+}
+
+.idgf-table-format {
+  font-family: "JetBrains Mono", monospace;
+  th { color: #fff; background: $canopee !important; font-weight: 600; }
+  th:first-child { border-top-left-radius: .6rem; }
+  th:last-child { border-top-right-radius: .6rem; }
+}
+
+.idgf-champs {
+  dt { font-family: "JetBrains Mono", monospace; color: $feuille; }
+  dd { margin-bottom: .8rem; }
+}
+
+// ── Outil de calcul ────────────────────────────────────────────────────────
+.idgf-outil { padding-top: 1.5rem; }
+
+.idgf-outil-grille {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 1.8rem;
+  align-items: start;
+}
+
+.idgf-outil-donnees {
+  position: sticky;
+  top: 84px;
+  h4 { font-weight: 700; margin-bottom: 1.2rem; }
+}
+
+.idgf-depot {
+  position: relative;
+  padding: 1.6rem 1rem 1rem;
+  text-align: center;
+  border-radius: 1.2rem;
+  border: 2px dashed rgba($feuille, .35);
+  background: linear-gradient(180deg, rgba($lime, .07), rgba($morpho, .04));
+  transition: border-color .3s, background .3s, transform .3s;
+
+  &.survol {
+    border-color: $lime;
+    background: rgba($lime, .18);
+    transform: scale(1.02);
+    .idgf-depot-icone { transform: translateY(-6px) scale(1.1); }
+  }
+  .idgf-depot-icone {
+    font-size: 2.4rem;
+    color: $feuille;
+    transition: transform .3s $transition;
+    animation: flottement 4s ease-in-out infinite;
+  }
+  .idgf-depot-texte {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: .8rem;
+    small { color: rgba($encre, .6); }
+  }
+  .shiny-input-container { width: 100% !important; margin-bottom: 0; }
+  .form-group { margin-bottom: 0; }
+  .input-group { border-radius: 999px; overflow: hidden; box-shadow: $ombre-douce; }
+  .btn-file { background: $feuille; color: #fff; border: 0; }
+  .form-control { font-size: .85rem; }
+  .progress { height: 6px; margin-top: .6rem; border-radius: 6px; }
+  .progress-bar { background: $degrade-principal; }
+}
+
+.idgf-ou {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin: 1rem 0;
+  color: rgba($encre, .5);
+  font-size: .85rem;
+  &::before, &::after { content: ""; flex: 1; height: 1px; background: rgba($encre, .15); }
+}
+
+.idgf-aide {
+  display: flex;
+  gap: .6rem;
+  margin-top: 1.2rem;
+  font-size: .85rem;
+  color: rgba($encre, .7);
+  .fa, .fas, svg { color: $marine; margin-top: .2rem; }
+  code { color: $feuille; }
+}
+
+.idgf-etat-ok {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin-top: 1.2rem;
+  padding: .8rem 1rem;
+  border-radius: 1rem;
+  background: rgba(#00b050, .1);
+  border: 1px solid rgba(#00b050, .3);
+  animation: apparition .5s $transition;
+  > svg, > .fa { font-size: 1.4rem; color: #00b050; }
+  div { display: flex; flex-direction: column; min-width: 0; }
+  strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  small { color: rgba($encre, .65); }
+}
+
+.idgf-vide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 460px;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  border-radius: 1.6rem;
+  border: 2px dashed rgba($feuille, .2);
+  background: rgba(255, 255, 255, .5);
+
+  h3 { font-weight: 700; margin-top: 1.5rem; }
+  p { max-width: 420px; color: rgba($encre, .65); }
+}
+
+.idgf-vide-visuel {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  .centrique { width: 110px; }
+  .pennee { height: 150px; }
+}
+
+.idgf-tuiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.idgf-tuile {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  padding: 1.1rem 1.2rem;
+  border-radius: 1.2rem;
+  color: #fff;
+  background: linear-gradient(135deg, $canopee, #134a36);
+  box-shadow: $ombre-douce;
+  animation: apparition .6s $transition both;
+  @for $i from 1 through 5 { &:nth-child(#{$i}) { animation-delay: #{$i * 80}ms; } }
+
+  .idgf-tuile-icone {
+    display: grid;
+    place-items: center;
+    flex: 0 0 44px;
+    height: 44px;
+    border-radius: 14px;
+    color: $canopee;
+    background: $degrade-principal;
+  }
+  .idgf-tuile-valeur { font-family: Fraunces, serif; font-size: 1.8rem; font-weight: 800; line-height: 1; }
+  .idgf-tuile-libelle { font-size: .8rem; color: rgba(255, 255, 255, .7); }
+
+  &.alerte {
+    background: linear-gradient(135deg, #7a2e12, $laterite);
+    .idgf-tuile-icone { background: linear-gradient(135deg, $soleil, #ff8c00); }
+  }
+}
+
+.idgf-apparition { animation: apparition .7s $transition both .3s; margin-bottom: 1.4rem; padding: 1.4rem 1.6rem; }
+
+.idgf-repartition {
+  display: flex;
+  height: 40px;
+  gap: 3px;
+  border-radius: .8rem;
+  overflow: hidden;
+}
+
+.idgf-repartition-segment {
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+  background: var(--c);
+  transform-origin: left;
+  animation: croissance .9s $transition both .5s;
+}
+
+.idgf-legende {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem 1.2rem;
+  margin-top: .8rem;
+  font-size: .85rem;
+  i { display: inline-block; width: 12px; height: 12px; margin-right: .4rem; border-radius: 4px; vertical-align: -1px; }
+}
+
+// Cartes à onglets de bslib
+.idgf-outil-resultats {
+  .card {
+    border: 0;
+    border-radius: 1.4rem;
+    box-shadow: $ombre-douce;
+    overflow: hidden;
+    animation: apparition .7s $transition both .45s;
+  }
+  .card-header { background: #fff; border-bottom: 1px solid rgba($canopee, .08); }
+  .nav-underline .nav-link { color: rgba($encre, .65); }
+  .nav-underline .nav-link.active { color: $feuille; border-bottom-color: $lime; font-weight: 600; }
+}
+
+.idgf-choix-releve { max-width: 360px; }
+
+.idgf-diagnostic {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.idgf-radar {
+  border-radius: 1.2rem;
+  background: radial-gradient(circle at 50% 50%, rgba($lime, .1), transparent 70%);
+}
+
+.idgf-fiche-tete {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+// Jauge circulaire animée (conic-gradient + @property)
+.idgf-jauge {
+  position: relative;
+  flex: none;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: conic-gradient(var(--c) calc(var(--p) * 1%), rgba($canopee, .08) 0);
+  animation: jauge 1.4s $transition both;
+  box-shadow: 0 0 40px -6px var(--c);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 14px;
+    border-radius: 50%;
+    background: $sable;
+  }
+}
+
+.idgf-jauge-centre {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.idgf-jauge-valeur { font-family: Fraunces, serif; font-size: 2.4rem; font-weight: 800; line-height: 1; }
+.idgf-jauge-libelle { font-size: .75rem; letter-spacing: .2em; color: rgba($encre, .6); }
+
+.idgf-fiche-infos {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .6rem;
+}
+
+.idgf-classe {
+  padding: .4rem 1.1rem;
+  border-radius: 999px;
+  font-family: Fraunces, serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--t, #fff);
+  background: var(--c);
+  box-shadow: 0 8px 24px -8px var(--c);
+}
+
+.idgf-fiab {
+  font-size: .9rem;
+  font-weight: 600;
+  &.satisfaisante { color: $feuille; }
+  &.reduite { color: #b57a00; }
+  &.nonvalide { color: $etoile; }
+}
+
+.idgf-fiche-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem 1rem;
+  font-size: .85rem;
+  color: rgba($encre, .7);
+}
+
+.idgf-barres { display: flex; flex-direction: column; gap: .55rem; }
+
+.idgf-barre {
+  display: grid;
+  grid-template-columns: 82px 1fr 42px;
+  align-items: center;
+  gap: .7rem;
+  font-size: .85rem;
+}
+.idgf-barre-nom { font-family: "JetBrains Mono", monospace; font-weight: 600; }
+.idgf-barre-valeur { font-family: "JetBrains Mono", monospace; text-align: right; }
+.idgf-barre-piste { height: 10px; border-radius: 10px; background: rgba($canopee, .08); overflow: hidden; }
+.idgf-barre-remplie {
+  height: 100%;
+  width: var(--l);
+  border-radius: 10px;
+  background: var(--c);
+  box-shadow: 0 0 12px var(--c);
+  transform-origin: left;
+  animation: croissance .9s $transition both var(--d);
+}
+
+.idgf-taxons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem;
+  margin-top: 1rem;
+  small { width: 100%; color: rgba($encre, .6); }
+}
+
+.idgf-puce {
+  padding: .15rem .6rem;
+  border-radius: 999px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: .78rem;
+  background: rgba($marine, .08);
+  border: 1px solid rgba($marine, .2);
+}
+
+.idgf-export {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.2rem;
+  padding: .5rem 0;
+}
+
+.idgf-export-option {
+  padding: 1.6rem;
+  border-radius: 1.2rem;
+  border: 1px solid rgba($canopee, .1);
+  background: linear-gradient(180deg, #fff, rgba($lime, .06));
+  h5 { font-weight: 700; margin-top: 1rem; }
+  p { font-size: .9rem; color: rgba($encre, .7); }
+}
+
+// DataTables
+table.dataTable {
+  font-size: .88rem;
+  thead th { background: $canopee; color: #fff; white-space: nowrap; }
+  td { white-space: nowrap; }
+  tbody tr:hover > * { box-shadow: inset 0 0 0 9999px rgba($lime, .12) !important; }
+}
+
+// Notifications Shiny
+#shiny-notification-panel {
+  .shiny-notification {
+    border-radius: 1rem;
+    border: 0;
+    box-shadow: $ombre-forte;
+  }
+  .shiny-notification-error { background: #fff; border-left: 5px solid $etoile; color: $encre; }
+}
+
+// ── Références ─────────────────────────────────────────────────────────────
+.idgf-reference {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  h4 { font-weight: 700; margin: .2rem 0 .5rem; }
+  .idgf-carte-icone { width: 64px; height: 64px; font-size: 1.6rem; }
+  &.principale {
+    background: linear-gradient(135deg, #fff, rgba($morpho, .07));
+    border: 1px solid rgba($morpho, .25);
+    .idgf-carte-icone { background: linear-gradient(135deg, $morpho, $morpho-2); }
+  }
+}
+
+.idgf-citation {
+  position: relative;
+  margin: 1rem 0;
+  padding: 1rem 3.4rem 1rem 1.2rem;
+  border-radius: .9rem;
+  font-size: .92rem;
+  background: rgba($canopee, .05);
+  border-left: 4px solid $lime;
+
+  .idgf-copier {
+    position: absolute;
+    top: .6rem; right: .6rem;
+    width: 36px; height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    color: $feuille;
+    background: #fff;
+    box-shadow: $ombre-douce;
+    &.copie { color: #fff; background: #00b050; }
+  }
+}
+
+.idgf-boutons { display: flex; flex-wrap: wrap; gap: .7rem; }
+
+.idgf-contacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.idgf-contact {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  padding: 1rem 1.2rem;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: $ombre-douce;
+  text-decoration: none;
+  color: $encre;
+  transition: transform .3s $transition;
+  &:hover { transform: translateY(-3px); color: $feuille; }
+  .idgf-avatar {
+    display: grid;
+    place-items: center;
+    flex: 0 0 46px;
+    height: 46px;
+    border-radius: 50%;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, $feuille, $marine);
+  }
+  small { display: block; color: rgba($encre, .6); }
+}
+
+// ── Pied de page ───────────────────────────────────────────────────────────
+.idgf-pied {
+  position: relative;
+  margin-top: 4rem;
+  padding: 6rem 0 2.5rem;
+  color: rgba(255, 255, 255, .8);
+  background: linear-gradient(180deg, $canopee, $canopee-2);
+
+  .idgf-pied-vague {
+    top: -1px; bottom: auto;
+    transform: scaleY(-1);
+    .vague-1 { fill: rgba($feuille, .5); }
+    .vague-2 { fill: rgba($marine, .4); }
+    .vague-3 { fill: $sable; }
+  }
+}
+
+.idgf-pied-contenu {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  strong { color: #fff; font-family: Fraunces, serif; }
+}
+
+.idgf-pied-liens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  a { color: rgba(255, 255, 255, .8); text-decoration: none; &:hover { color: $lime; } }
+}
+
+// ── Apparition au défilement ───────────────────────────────────────────────
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity .9s $transition, transform .9s $transition;
+  transition-delay: var(--retard, 0ms);
+  &.visible { opacity: 1; transform: none; }
+}
+
+// ── Animations ─────────────────────────────────────────────────────────────
+@keyframes ciel       { to { background-position: 100% 100%; transform: scale(1.05); } }
+@keyframes respiration { 0%, 100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.08); opacity: 1; } }
+@keyframes irisation  { to { background-position: 250% 0; } }
+@keyframes tourne     { to { transform: rotate(360deg); } }
+@keyframes rotation   { to { transform: rotate(360deg); } }
+@keyframes courant    { to { transform: translateX(-50%); } }
+@keyframes battement  { from { transform: scaleX(1); } to { transform: scaleX(.25); } }
+@keyframes vol        { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+@keyframes molette    { 0% { opacity: 0; transform: translateY(0); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(14px); } }
+@keyframes flottement { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-16px) rotate(4deg); } }
+@keyframes pulsation  { 0% { box-shadow: 0 0 0 0 rgba($lime, .55); } 70% { box-shadow: 0 0 0 12px rgba($lime, 0); } 100% { box-shadow: 0 0 0 0 rgba($lime, 0); } }
+@keyframes apparition { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes croissance { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes jauge      { from { --p: 0; } }
+@keyframes derive {
+  0%   { opacity: 0; transform: translate(0, 0); }
+  10%  { opacity: var(--opacite, .5); }
+  50%  { transform: translate(var(--balancement, 30px), -60vh); }
+  90%  { opacity: var(--opacite, .5); }
+  100% { opacity: 0; transform: translate(0, -120vh); }
+}
+
+// ── Adaptation aux écrans ──────────────────────────────────────────────────
+@media (max-width: 1199.98px) {
+  .idgf-grille-chiffres { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .idgf-diagnostic { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 991.98px) {
+  .idgf-grille-2, .idgf-grille-3 { grid-template-columns: 1fr; }
+  .idgf-outil-grille { grid-template-columns: 1fr; }
+  .idgf-outil-donnees { position: static; }
+  .idgf-publi { grid-template-columns: 1fr; }
+  .idgf-morpho { width: 48px; }
+}
+
+@media (max-width: 575.98px) {
+  .idgf-grille-chiffres { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .idgf-section { padding: 3.5rem 0; }
+  .idgf-fiche-tete { flex-direction: column; align-items: flex-start; }
+  .idgf-reference { grid-template-columns: 1fr; }
+  .idgf-echelle-segment span { font-size: .7rem; writing-mode: vertical-rl; transform: rotate(180deg); }
+  .idgf-defiler { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+  .idgf-morpho { display: none; }
+  .idgf-echelle-segment { transform: none; }
+}

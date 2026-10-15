@@ -1,16 +1,12 @@
-#' Applicatif simplifié IDGF
+#' Applicatif simplifié IDGF (ancien nom)
 #'
-#' Cette fonction exécute un applicatif développé via le package Rshiny pour proposer une interface graphique.
-#' @importFrom magrittr %>%
+#' Conservée pour compatibilité avec les versions 2.x du package : lance
+#' désormais l'application golem via [run_app()].
+#' @param ... Arguments transmis à [run_app()]
 #' @export
 #' @examples
 #' library(IDGF)
 #' # runIDGFTool()
-runIDGFTool <- function() {
-  appDir <- system.file("myApp", package = "IDGF")
-  if (appDir == "") {
-    stop("Could not find example directory. Try re-installing `IDGF`.", call. = FALSE)
-  }
-
-  shiny::runApp(appDir, display.mode = "normal")
+runIDGFTool <- function(...) {
+  run_app(...)
 }

@@ -20,10 +20,10 @@ computeIDGF <- function(IDGFdata){
 
   metrique_calc <-  df_standard %>%
     dplyr::inner_join(table_metrics, by = "cd_taxon") %>%
-    dplyr::mutate_at(.vars = dplyr::vars(indiciel:NH4),.funs = dplyr::funs(.*abondance)) %>%
+    dplyr::mutate(dplyr::across(indiciel:NH4, ~ .x * abondance)) %>%
     dplyr::group_by(sample) %>%
-    dplyr::summarise_at(dplyr::vars(indiciel:NH4),sum) %>%
-    dplyr::mutate_at(.vars = dplyr::vars(MINER:NH4),.funs=dplyr::funs(1-./indiciel)) %>%
+    dplyr::summarise(dplyr::across(indiciel:NH4, sum)) %>%
+    dplyr::mutate(dplyr::across(MINER:NH4, ~ 1 - .x / indiciel)) %>%
     dplyr::ungroup() %>%
     dplyr::rowwise() %>%
     dplyr:: mutate(MORGA = min(COT,DBO5,DCO),
@@ -49,7 +49,7 @@ computeIDGF <- function(IDGFdata){
     dplyr::ungroup() %>%
     dplyr::select(sample,param,EQR) %>%
     tidyr::spread(key = param, value = EQR) %>%
-    dplyr::mutate_at(dplyr::vars(MES:SAT),round,2)
+    dplyr::mutate(dplyr::across(MES:SAT, ~ round(.x, 2)))
 
 
   note_finale <- metrique_calc %>%
@@ -57,8 +57,7 @@ computeIDGF <- function(IDGFdata){
     dplyr::mutate(EQR = purrr::pmap_dbl(.l = list(value,her,param), .f = Metric2EQR)) %>% # Renvoie metrique/ref
     dplyr::ungroup() %>%
     dplyr::group_by(sample) %>%
-    dplyr::summarise(IDGF = mean(EQR)) %>% # Note IDGF = moyenne des EQR
-    dplyr::ungroup() %>%
+    dplyr::summarise(IDGF = mean(EQR), .groups = "drop") %>% # Note IDGF = moyenne des EQR
     dplyr::mutate(IDGF = model_IDGF(IDGF)) %>%
     dplyr::mutate(IDGF = round(IDGF,2)) %>%
     dplyr::mutate(class = Ratio2Class(IDGF,boundaries = c(0.25,0.50,0.75,0.88),number = FALSE,language = "FR"),
@@ -71,8 +70,8 @@ computeIDGF <- function(IDGFdata){
 
     dplyr::left_join(IDGFdata$taxons_missing, by = "sample") %>%
     dplyr::left_join(IDGFdata$taxons_halins, by = "sample") %>%
-    dplyr::mutate_at(dplyr::vars(IDGF,class:SAT,Taxons_inconnus,Taxons_halins),
-                     dplyr::funs(ifelse(is.na(.), "", .))) %>%
+    dplyr::mutate(dplyr::across(c(IDGF, class:SAT, Taxons_inconnus, Taxons_halins),
+                                ~ ifelse(is.na(.x), "", .x))) %>%
     dplyr::select(id_releve = sample,pourcentage_indiciels = indiciel,pourcentage_halins = halin, MES:SAT,IDGF,NumClasse = numclass, Classe = class, `fiabilité`, Taxons_halins,Taxons_inconnus) %>%
     dplyr::rename("MINE."="MINER","SAT.O2"="SAT","Mat.Orga"="MORGA","P-Trophie"="PTROPHIE","N-Orga"="NORG")
 

@@ -142,25 +142,26 @@ Ce fichier peut être sauvegardé sous différents formats :
 
 # Utilisation de l'applicatif
 
-## Via une interface interactive
+## Via l'application interactive
 
-Afin de simplifier l'utilisation de cet applicatif, une version interactive est proposée à l'utilisateur. Il suffit d'exécuter cette commande :
+Une application Shiny (construite avec `golem`) présente la méthode, renvoie vers la publication de référence et donne accès à l'outil de calcul. Pour la lancer en local :
 
-```{r appplication, eval = FALSE}
-library(IDGF) # On vérifie que le package soit bien chargé
-runIDGFTool() # Va lancer un applicatif
+```r
+library(IDGF)
+run_app() # runIDGFTool() fonctionne toujours
 ```
 
-Un pop-up va alors s'ouvrir comme une seconde page de Rstudio. Il est conseillé d'élargir cette fenêtre en plein écran.
+L'onglet « Calculer l'IDGF » accepte un fichier Excel ou CSV (dépôt par glisser-déposer) ou le jeu d'exemple, puis affiche :
+
+- une synthèse (nombre de relevés, IDGF médian, répartition par classe d'état, relevés non valides, taxons inconnus) ;
+- pour chaque relevé, la note, la classe, la fiabilité, la valeur des sept métriques et le diagramme radar d'appui au diagnostic ;
+- le tableau complet des résultats.
+
+L'export produit une archive .zip (tableau .csv et un diagramme .png par relevé) ou le tableau seul.
 
 ![](man/figures/README-app.png)
 
-A partir de cette interface, il suffit de charger les données à l'aide du bouton de chargement, puis il sera possible de visionner à partir des modules de la barre latérale :
-
-- Les résultats bruts (sous forme de tableau) 
-- Les diagrammes de diagnostic (Note : L'affichage des graphiques peut nécessiter quelques secondes)
-
-Enfin, il est possible de télécharger l'ensemble de ces résultats sous forme d'archive compressée.
+Le fichier `app.R` à la racine du dépôt lance l'application sur une plateforme d'hébergement (SK8, shinyapps.io, Posit Connect).
 
 ## Via lignes de code
 

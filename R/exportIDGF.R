@@ -24,7 +24,7 @@ exportIDGF <- function(IDGFres, outdir = paste0("RES_",Sys.Date())){
   s.time <- paste0(strsplit(as.character(Sys.time())," ")[[1]],collapse = "_")
   time <- Sys.Date()
 
-  write.csv2(IDGFres %>% dplyr::select(1:16),paste0(outdir,"/resultats_idgf_",time,".csv"), row.names = FALSE)
+  utils::write.csv2(IDGFres %>% dplyr::select(1:16),paste0(outdir,"/resultats_idgf_",time,".csv"), row.names = FALSE)
 
   ## Sortie des graphiques si ils sont présent dans le tableau de résultat
   if(ncol(IDGFres) == 17) {

@@ -26,7 +26,7 @@ radarIDGF <- function(IDGFres){
   result_graph <- result_IDGF %>%
     dplyr::filter(id_releve %in% id_releves) %>%
     dplyr::select(id_releve,MES:SAT.O2) %>%
-    dplyr::mutate_at(dplyr::vars(MES:SAT.O2),as.numeric) %>%
+    dplyr::mutate(dplyr::across(MES:SAT.O2, as.numeric)) %>%
     tidyr::gather(key = param, value = EQR, -id_releve) %>%
     dplyr::mutate(radar_metric = 1 - EQR) %>%
     dplyr::mutate(param = factor(param, levels = c("SAT.O2","Mat.Orga","N-Orga","P-Trophie","NO3","MINE.","MES")))
@@ -55,7 +55,7 @@ radarIDGF <- function(IDGFres){
 
     plotlist[[as.character(i)]] <- plot
 
-    cat(paste0("\u2713 Graphique produit pour l'opération...",i,"\n"))
+    message("\u2713 Graphique produit pour l'op\u00e9ration... ", i)
 
   }
 

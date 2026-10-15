@@ -1,29 +1,40 @@
 Package: IDGF
 Title: Indice Diatomique de Guyane Française
-Version: 2.0
+Version: 3.0.0
 Authors@R: c(
     person("David", "Carayon", email = "david.carayon@inrae.fr", role = c("aut", "cre")),
     person("François","Delmas",email = "francois.delmas@inrae.fr", role = "aut")
     )
-Description: Package contenant les fonctions essentielles pour l'évaluation de l'état écologique des cours d'eau de Guyane basée sur les diatomées.
-Depends: R (>= 3.4.0)
+Description: Application Shiny (golem) et fonctions de calcul pour l'évaluation
+    de l'état écologique des cours d'eau de Guyane basée sur les diatomées :
+    présentation de la méthode, calcul de l'IDGF, diagrammes d'appui au
+    diagnostic et export des résultats.
+Depends: R (>= 4.1.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
-Imports: 
+Imports:
+    bslib (>= 0.6.0),
+    config (>= 0.3.1),
+    dplyr (>= 1.1.0),
+    DT,
+    ggplot2,
+    glue,
+    golem (>= 0.4.0),
     magrittr,
+    pkgload,
+    purrr,
     readr,
     readxl,
-    glue,
+    sass,
+    shiny (>= 1.7.0),
     tibble,
-    dplyr,
     tidyr,
-    ggplot2,
-    purrr,
-    shiny,
-    shinydashboard
-Suggests: 
+    zip
+Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.1.1

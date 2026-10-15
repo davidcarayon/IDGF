@@ -1,3 +1,13 @@
 ^README\.Rmd$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^dev$
+^app\.R$
+^rsconnect$
+^renv$
+^renv\.lock$
+^\.Rprofile$
+^Dockerfile$
+^\.dockerignore$
+^R/_disable_autoload\.R$
+^LICENSE$

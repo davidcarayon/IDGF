@@ -2,7 +2,9 @@ model_IDGF <- function(meanEQR) {
 
   value = round((3.626943 * meanEQR) -2.626943,2)
 
-  ifelse(value < 0, yes = return(0), no = return(value))
+  # Note bornée à 0 relevé par relevé (l'ancien ifelse(..., return(0), ...)
+  # renvoyait 0 pour tous les relevés dès qu'un seul était négatif)
+  pmax(value, 0)
 
 }
 
